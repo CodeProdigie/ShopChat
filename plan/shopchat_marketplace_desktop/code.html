@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Marketplace | ShopChat</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#eae6f1",
+                        "outline-variant": "#c8c4d5",
+                        "on-primary-fixed-variant": "#3b35a7",
+                        "surface": "#fcf8ff",
+                        "surface-container-low": "#f6f2fc",
+                        "on-secondary-fixed-variant": "#005049",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#89f5e7",
+                        "secondary-fixed-dim": "#6bd8cb",
+                        "tertiary-fixed-dim": "#ffb694",
+                        "surface-container-highest": "#e4e1eb",
+                        "secondary-container": "#86f2e4",
+                        "inverse-on-surface": "#f3eff9",
+                        "on-tertiary-fixed": "#351000",
+                        "on-primary-fixed": "#0f0069",
+                        "background": "#fcf8ff",
+                        "primary": "#1f108e",
+                        "inverse-primary": "#c3c0ff",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "primary-container": "#3730a3",
+                        "surface-bright": "#fcf8ff",
+                        "tertiary-container": "#752c00",
+                        "on-tertiary-container": "#fe9562",
+                        "on-primary-container": "#a9a7ff",
+                        "tertiary": "#511c00",
+                        "secondary": "#006a61",
+                        "surface-variant": "#e4e1eb",
+                        "on-secondary-container": "#006f66",
+                        "inverse-surface": "#303037",
+                        "on-background": "#1b1b22",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#f0ecf6",
+                        "surface-dim": "#dcd8e3",
+                        "on-secondary-fixed": "#00201d",
+                        "on-error": "#ffffff",
+                        "on-surface": "#1b1b22",
+                        "tertiary-fixed": "#ffdbcc",
+                        "surface-tint": "#544fc0",
+                        "on-tertiary-fixed-variant": "#7a3003",
+                        "primary-fixed": "#e2dfff",
+                        "on-secondary": "#ffffff",
+                        "outline": "#777584",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#464553"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "md": "24px",
+                        "lg": "40px",
+                        "sm": "12px",
+                        "base": "8px",
+                        "xl": "64px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "h3": ["Inter"],
+                        "h2": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "h1": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "h3": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1", "fontWeight": "500"}],
+                        "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .backdrop-blur-md { backdrop-filter: blur(12px); }
+        .tap-highlight-transparent { -webkit-tap-highlight-color: transparent; }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-50 flex justify-between items-center px-6 py-3 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-none font-inter antialiased text-sm font-medium">
+<div class="flex items-center gap-8">
+<span class="text-xl font-black tracking-tight text-indigo-700 dark:text-indigo-400">ShopChat</span>
+<div class="hidden md:flex items-center gap-4 bg-surface-container-low px-4 py-2 rounded-full border border-outline-variant/30">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm w-64" placeholder="Search marketplace..." type="text"/>
+</div>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-indigo-700 dark:text-indigo-400 border-b-2 border-indigo-700 dark:border-indigo-400 pb-1 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors active:opacity-80" href="#">Marketplace</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors active:opacity-80" href="#">Analytics</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors active:opacity-80" href="#">Merchants</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:text-indigo-600 transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:text-indigo-600 transition-colors">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+</button>
+<img alt="User Profile" class="w-8 h-8 rounded-full border border-outline-variant shadow-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqlKNxciJ9tqU08vfo0vW7OTxThbLF3FloqNNCzwy-Gpq9dZURmTDOkoyKKtZfn6O08MIt0Gbm0kTdcyiBGSfPkA54lpjycGK85cU2jyRyqRaDYcsK4SmKzjlRiTHom-fCz43d2wyBw_ihjhJd5MOYy-5RoxOkrcSW71R860j1l0bi7yoMf04lymiow1C2H_cuhj-p0iTEU6whqD8eLfYqanGXPPaUZZ4qyNokVw9aYdKwwGzFGv__RT81E6P-Z7MJbnXAeBh5gPr4"/>
+</div>
+</header>
+<div class="flex">
+<!-- SideNavBar -->
+<aside class="hidden lg:flex flex-col fixed left-0 top-0 h-full h-screen w-64 border-r border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 pt-20 z-40">
+<div class="px-6 py-4 flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-white" style="font-variation-settings: 'FILL' 1;">storefront</span>
+</div>
+<div>
+<h2 class="text-lg font-bold text-indigo-800 dark:text-indigo-300">ShopChat Pro</h2>
+<p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Enterprise Suite</p>
+</div>
+</div>
+<nav class="flex-1 px-4 mt-6 space-y-1">
+<div class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-all rounded-xl">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-inter text-sm">Dashboard</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-all rounded-xl">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span class="font-inter text-sm">Orders</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-all rounded-xl">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-inter text-sm">Inventory</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-all rounded-xl">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+<span class="font-inter text-sm">Messages</span>
+</div>
+<div class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer transition-all rounded-xl">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-inter text-sm">Settings</span>
+</div>
+</nav>
+<div class="p-4 m-4 bg-indigo-600 rounded-2xl text-white shadow-lg shadow-indigo-200">
+<p class="text-xs font-medium opacity-80">Current Plan: Basic</p>
+<p class="text-sm font-bold mt-1">Upgrade Plan</p>
+<button class="mt-3 w-full bg-white text-indigo-700 py-2 rounded-xl text-xs font-bold hover:bg-indigo-50 transition-colors">Go Unlimited</button>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="flex-1 lg:ml-64 min-h-screen p-gutter md:p-lg">
+<!-- Marketplace Header & Filters -->
+<section class="max-w-container-max mx-auto mb-lg">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+<div>
+<h1 class="font-h1 text-h1 text-primary mb-2">Marketplace</h1>
+<p class="text-body-md text-outline">Browse unique items from our verified merchant network.</p>
+</div>
+<div class="flex flex-wrap gap-4">
+<div class="bg-white px-4 py-3 rounded-xl border border-slate-200 shadow-sm flex items-center gap-3">
+<span class="material-symbols-outlined text-indigo-600 text-sm">filter_list</span>
+<span class="text-label-md font-bold text-slate-700">Categories</span>
+<span class="material-symbols-outlined text-slate-400 text-sm">expand_more</span>
+</div>
+<div class="bg-white px-4 py-3 rounded-xl border border-slate-200 shadow-sm flex items-center gap-3">
+<span class="material-symbols-outlined text-indigo-600 text-sm">payments</span>
+<span class="text-label-md font-bold text-slate-700">Price Range</span>
+<span class="material-symbols-outlined text-slate-400 text-sm">expand_more</span>
+</div>
+<div class="bg-white px-4 py-3 rounded-xl border border-slate-200 shadow-sm flex items-center gap-3">
+<span class="material-symbols-outlined text-indigo-600 text-sm">star</span>
+<span class="text-label-md font-bold text-slate-700">Seller Rating</span>
+<span class="material-symbols-outlined text-slate-400 text-sm">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Product Grid (Bento/Asymmetric Style) -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+<!-- Product 1: Keyboard -->
+<div class="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A high-end mechanical keyboard with custom indigo backlit keys resting on a sleek, minimalist desk setup. The lighting is moody and professional, emphasizing the tactile textures of the keycaps and the aluminum frame. Soft, cool-toned ambient light highlights the modern aesthetic and premium craftsmanship." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBw97HVvSXDpTAjicumS0Ek6OcHhPHYKPdKRFbpRdi3GQ9cZ2wdzWZyuEn6VgynInYozNqveTX7gTkvjO5tbA7hBEORvQoMXaehKr8ayrpxXZnYaWi0-Lnfp4YMYGwmgKKEEELLERiuAhetq-ielfJZ9HS9xzSs2zV3qHjNceGOnZIeZRtQf-kYrMF72gG4r33N7UU_p7leSYUdp0K7PxwUkyAzJBXb5A196PyrWdRA6DycLccF6I-8q-MjC8StHQL9RArJxJQpx5rF"/>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-label-sm font-bold text-indigo-700">New Arrival</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-h3 text-h3 text-on-background">Tactile Pro Keyboard</h3>
+<span class="text-h3 text-indigo-700 font-bold">$189</span>
+</div>
+<p class="text-body-sm text-outline mb-6">Premium mechanical switches with customizable RGB and aluminum chassis.</p>
+<div class="flex items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<img alt="Seller" class="w-6 h-6 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAr_xucMd8xRg0C3z63bC6HK4c9baMZKa8uJHLQvF3QAo-b61zKBs6iO_k5XAa7CM4cBPylaWVWButrsA61Ez_tAJL-iQrya0PeWngk1EbqMBh_QKGy87VMRGfBs1dgfm9i7IjGPTeVUKvIRi18wkRFxbXSbWs1P_QRaMMcVNM-_8LmHiO0X3Ua9R-gph4tnbI3wmUIGQNQs3wxSq0UgU2mKUC50zyPnUWG3dzHOIj4bne5Ic8QEcFIZXMpPjtga6EvWFByME6FKM-f"/>
+<span class="text-label-sm font-bold text-slate-600">KeyMods Co.</span>
+</div>
+<button class="flex items-center gap-2 border border-secondary text-secondary font-label-md py-2 px-4 rounded-xl hover:bg-secondary/5 transition-colors">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">chat</span>
+                                    Ask Seller
+                                </button>
+</div>
+</div>
+</div>
+<!-- Product 2: Headphones -->
+<div class="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="Modern studio headphones with a matte black finish resting on a light wood surface. The lighting is soft and directional, highlighting the leather padding and brushed metal details. The overall scene is clean and minimalist, conveying professional-grade audio quality and effortless expertise." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCryA2h0lgjB1gMaLovOJGPf6uENIKfLm1GC0ijh15q2fyJx5bkntW4pwbAoAT3zLz-uJtWhT3VfoK4oWH2oBAhCQP6Gwaq9p3w1KcmqaOZyy1gVIkX7AoBTbZOZR7HlPQoLi8j-5avMZMybah__cpy9BfnTigIbSSU8-_aiF4or-oGoaR1BgF_BFbOkhZJh_-1qC0kHpOisJRcHjufIcZ7to_VH9Yt5oVCLC0uCBEiC64g6AqnUm-Hxc9yM_lDfYmqxfce8rLIrgvB"/>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-h3 text-h3 text-on-background">Sonic Studio Over-Ear</h3>
+<span class="text-h3 text-indigo-700 font-bold">$299</span>
+</div>
+<p class="text-body-sm text-outline mb-6">Active noise cancellation with 40-hour battery life and spatial audio support.</p>
+<div class="flex items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<img alt="Seller" class="w-6 h-6 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3zh6RxyS5XZNfzzCsJq80ZOoIA5lmyVJpfpL8AKu45-336WjxLD2ygzlqC97H9muEqLrFCK-iPbJXrp4wlRPQEBYb3AISSJQbRZ9KrDpwM-Va-unzUvqg-_xWRmN83xkC7nhz9hnlOy0WK3iR1gvhHaX8DL6GCFTEdSnyuO6_T4psIsTyxMyIPJft2c4yuonFmFBqQYP2KSpWl-K0hA_jBsdLZWqH-jSDIb1vHJtWpH3z_RA5d78Ima4AZcqJIvUnX6Y2EpRCtTcn"/>
+<span class="text-label-sm font-bold text-slate-600">AudioHaus</span>
+</div>
+<button class="flex items-center gap-2 border border-secondary text-secondary font-label-md py-2 px-4 rounded-xl hover:bg-secondary/5 transition-colors">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">chat</span>
+                                    Ask Seller
+                                </button>
+</div>
+</div>
+</div>
+<!-- Product 3: Lamp -->
+<div class="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A minimalist architectural table lamp with a thin, curved neck and a geometric base. The scene is bathed in a warm, golden hour glow against a pristine white wall. The mood is serene and sophisticated, showcasing the lamp's sculptural form as a piece of functional digital art." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxIupe7QEHwpRcigKqlkME5f_R3mHy570JXS7MLIuApArV9eyfjm5QkAEFOCFeEn4btSl_ZFPX4W53YVmg4RF5lvEN_91AOy9rEiVaST-Djj49DvBhoH9gp98FxL7VkYF6nQXo5ksmVPsEF_M1AXzGSeszfm14J-DfdRnyzezxwaO0xBVx29Vy1DeagBWfI6JW6y_-puLmPdwr18syfKFLeeYUnyjGxcrcTg7D15r_9aQxU1myKgwFDUAvpS-tcM709xRQgrpnlJZa"/>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-h3 text-h3 text-on-background">Arc Minimalist Lamp</h3>
+<span class="text-h3 text-indigo-700 font-bold">$125</span>
+</div>
+<p class="text-body-sm text-outline mb-6">Adjustable brightness with touch-sensitive controls and sleek matte finish.</p>
+<div class="flex items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<img alt="Seller" class="w-6 h-6 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVaokpDu4BYbV-fEVxK1Vx4Vnc1CWbLRFkEsT9AIvEMcqJAX2YhHExPsw8lIEkip2g0T1uW4PeEJu9GPQnjRvBqzuvDsc_c0TXXE8znmAIt7LHNkDLKW6D436g4Hpr9uL7QNMj2UA3wNvhy7lSk-vF72Hh1GmrxC8XTi75WAzGf3y8hLbt86-Cq2i5nsSWdJuSvKp9QLDwJQzkp1RcLBHBU-ySFcY08ljjYZdnrSgF2ALONkUwoh-OT8U87oX0b98egpEVHpINJAQ4"/>
+<span class="text-label-sm font-bold text-slate-600">Lume Design</span>
+</div>
+<button class="flex items-center gap-2 border border-secondary text-secondary font-label-md py-2 px-4 rounded-xl hover:bg-secondary/5 transition-colors">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">chat</span>
+                                    Ask Seller
+                                </button>
+</div>
+</div>
+</div>
+<!-- Product 4: Watch -->
+<div class="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A luxury smart watch with a white silicon strap and a minimalist digital face. The watch is placed on a reflective glass surface with a soft, high-key white background. The lighting is crisp and modern, emphasizing the clean lines and premium materials of the device." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZhqSr1_W3aYgQEzAN-q1pkCu02KNBD8RjPc6xIfTLFXOaeqpYZ6tp81vQFLlXXefDwpok_OKXXC6NWMvBltjmVN4_q6ggIfPdC0eX8IER2xwm7DE6JcmB8Yd4Qyv5ImBolp0RR96dvBmuUKsC84UKaDtqvdi21kLkvAbsQsZiBMYI4SZ2rO4V9MPUfiU7QVbBxzAnuqyNyKTWBsFUfNuo-SVF11qE9WI3F4jz3LLAQrZfQrmxvuOvvMiM2SEZOCO-vq3CKTMF5mq_"/>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-h3 text-h3 text-on-background">Nova Smart Watch</h3>
+<span class="text-h3 text-indigo-700 font-bold">$450</span>
+</div>
+<p class="text-body-sm text-outline mb-6">Next-gen health tracking and seamless integration with the ShopChat ecosystem.</p>
+<div class="flex items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<img alt="Seller" class="w-6 h-6 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTAtHZgMqB4vVATGTkbYSg20jVt9MISvyENlTXkXSokqLCASw4m8dQw7Q6QWeHk1s6vypg0xr9_LbF3LNFmzFDeigZK1wL5naUVcBFrRljC0sXCpLkQAkBaPJI4dvwVTlYFDhOfKPxdC5SJbNiq8kWUPG42EAKhTBma_QmPiIKuDZNmZAq31axJXYNVe9p9VBTn8ENsta0kY07TG7-73AKzlqsdm3-6IOPJ4x8ANZGePhbHGLeApSLBL2U-FQE8Qxhap5k3sJzhceM"/>
+<span class="text-label-sm font-bold text-slate-600">NovaTech</span>
+</div>
+<button class="flex items-center gap-2 border border-secondary text-secondary font-label-md py-2 px-4 rounded-xl hover:bg-secondary/5 transition-colors">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">chat</span>
+                                    Ask Seller
+                                </button>
+</div>
+</div>
+</div>
+<!-- Product 5: Chair -->
+<div class="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="An ergonomic office chair with advanced mesh fabric and a polished aluminum base. The chair is set in a spacious, airy home office with soft natural daylight streaming in from a large window. The atmosphere is productive and calm, highlighting the chair's functional elegance and superior comfort." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-NtUnplEqYHvxYOWRP419FknG3L1xJlfc4xnHk_nvmx2C9CDG7GBYBN52NP2vOofLuyJoN1L8zUnWe3wt-4IK7lQz8XWAsCJSGnTmNNsYLT08UeA7K_dhu4fBd6RSMA3bcWoPaHEuzVjFjDZBHYI9PE3xQcHPh4D5Dn5-fsTwGe5gYsjOj1ItOkSNFj-m7GpyfVA-q_NX0eWtCisdenmzXfGu9-RM8sor7KquNnkKIi_j5VQqcvMUy8c3Xg-p0Xj90CFGEPjxCgiX"/>
+<div class="absolute top-4 right-4 bg-error/90 backdrop-blur-md px-3 py-1 rounded-full text-label-sm font-bold text-white">Low Stock</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-h3 text-h3 text-on-background">Nexus Ergonomic Chair</h3>
+<span class="text-h3 text-indigo-700 font-bold">$520</span>
+</div>
+<p class="text-body-sm text-outline mb-6">Full lumbar support and breathable mesh for peak performance during long hours.</p>
+<div class="flex items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<img alt="Seller" class="w-6 h-6 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxVtbh12z2dAXKRHHq-3wPoxYUWwQ4gs7m8OD6RsZj7cSaARoaJn0sneEVKKnprndkDBmk_gIuP_CF5vgN0KXZjCkuczHjG_0phdfWCcotO4NBkdiavvdTtNh6UfOSMBuN7UZI_7vy9hXK8e4Co3SWDB5RLpKdIzDWnknhSDswZxwRgVTYJNSanQ5ZtBhx2Jyg9U72AKci9QG4dVrRz9cq2XzUcRvfmF8YGWixgzZ5VusA3hB25PSBAM_TdEiKPO3tbVRLxvQtESGR"/>
+<span class="text-label-sm font-bold text-slate-600">WorkFlow Studio</span>
+</div>
+<button class="flex items-center gap-2 border border-secondary text-secondary font-label-md py-2 px-4 rounded-xl hover:bg-secondary/5 transition-colors">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">chat</span>
+                                    Ask Seller
+                                </button>
+</div>
+</div>
+</div>
+<!-- Product 6: Lens -->
+<div class="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="A professional 50mm f/1.2 prime camera lens with high-contrast lighting that reveals the complex glass elements and textured focus ring. The background is a dark, out-of-focus studio environment, making the lens's technical precision and optical clarity the central focus. The mood is sophisticated and expert." src="https://lh3.googleusercontent.com/aida-public/AB6AXuALzaawspzDrRj22lnNUbuIWzACoEenfbm8QRMq344RoH-JTealt3fVI22BC6eqnCd83nPUQmuw-SxUaeQ2rVddK9ErR8_KdiVWM-cRNBHu2yHlbYIYYUWT-tOuMTs8YbVZ5R5e9ZCIqWqzuwiCfRAYTDs24QpgthsTEBC9kz8aBHM24DBQPVerW01ZgylUjOV9jHqenqFqVSQ2oXvVumzoRRINjBRc0CoWDlE0D3BYgW74fcl01jRP1CVA_eCfGV1zBclm_-bs24aQ"/>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-h3 text-h3 text-on-background">ProFocus 50mm Prime</h3>
+<span class="text-h3 text-indigo-700 font-bold">$1,299</span>
+</div>
+<p class="text-body-sm text-outline mb-6">Ultra-fast aperture f/1.2 lens for stunning bokeh and low-light photography.</p>
+<div class="flex items-center justify-between gap-4">
+<div class="flex items-center gap-2">
+<img alt="Seller" class="w-6 h-6 rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZxdChZ-liDeKELiGCMlbhunxNss-VYZqQFvlRcdzlCU--W2LEyLQawzgcGzhb_sQDhCFRTzEStD2FvBzknOi-5G8o6sTvP_OI0WgrphqwUYxIOL6W6srZJbxvK3_jDMFaSM_As9Lj_qtxcUVTOs_ollpS6TP9ykeOkB4YpSLDRiPqmZLVroalNMJ8ntbi_A5WP0GFm7Ws-cG0Q5Pkt23PksSN9jrvXSWQtS8as6rhwChfV9AEixRtipGliQBKV7ajoTVbZSV03fvG"/>
+<span class="text-label-sm font-bold text-slate-600">LensCraft</span>
+</div>
+<button class="flex items-center gap-2 border border-secondary text-secondary font-label-md py-2 px-4 rounded-xl hover:bg-secondary/5 transition-colors">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">chat</span>
+                                    Ask Seller
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+</div>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 tap-highlight-transparent transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-wider">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-indigo-700 dark:text-indigo-400 scale-110 tap-highlight-transparent transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="storefront" style="font-variation-settings: 'FILL' 1;">storefront</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-wider">Market</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 tap-highlight-transparent transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-wider">Chat</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 tap-highlight-transparent transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-wider">Profile</span>
+</div>
+</nav>
+<!-- Footer -->
+<footer class="w-full py-8 px-6 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-slate-100 dark:border-slate-900 bg-white dark:bg-slate-950 lg:ml-64 lg:w-[calc(100%-16rem)]">
+<div class="flex flex-col md:flex-row items-center gap-6">
+<span class="font-bold text-indigo-700 dark:text-indigo-400">ShopChat</span>
+<p class="font-inter text-xs text-slate-500 dark:text-slate-400">© 2024 ShopChat Technologies Inc.</p>
+</div>
+<div class="flex gap-6">
+<a class="font-inter text-xs text-slate-500 dark:text-slate-400 no-underline hover:text-indigo-600 transition-colors transition-opacity hover:opacity-80" href="#">Privacy Policy</a>
+<a class="font-inter text-xs text-slate-500 dark:text-slate-400 no-underline hover:text-indigo-600 transition-colors transition-opacity hover:opacity-80" href="#">Terms of Service</a>
+<a class="font-inter text-xs text-slate-500 dark:text-slate-400 no-underline hover:text-indigo-600 transition-colors transition-opacity hover:opacity-80" href="#">Help Center</a>
+<a class="font-inter text-xs text-slate-500 dark:text-slate-400 no-underline hover:text-indigo-600 transition-colors transition-opacity hover:opacity-80" href="#">API Docs</a>
+</div>
+</footer>
+</body></html>

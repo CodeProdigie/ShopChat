@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ShopChat Seller Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-high": "#eae6f1",
+                        "outline-variant": "#c8c4d5",
+                        "on-primary-fixed-variant": "#3b35a7",
+                        "surface": "#020617",
+                        "surface-container-low": "#0f172a",
+                        "on-secondary-fixed-variant": "#005049",
+                        "on-error-container": "#93000a",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#89f5e7",
+                        "secondary-fixed-dim": "#6bd8cb",
+                        "tertiary-fixed-dim": "#ffb694",
+                        "surface-container-highest": "#1e293b",
+                        "secondary-container": "#86f2e4",
+                        "inverse-on-surface": "#f3eff9",
+                        "on-tertiary-fixed": "#351000",
+                        "on-primary-fixed": "#0f0069",
+                        "background": "#020617",
+                        "primary": "#4f46e5",
+                        "inverse-primary": "#c3c0ff",
+                        "error": "#ba1a1a",
+                        "primary-fixed-dim": "#c3c0ff",
+                        "primary-container": "#3730a3",
+                        "surface-bright": "#fcf8ff",
+                        "tertiary-container": "#752c00",
+                        "on-tertiary-container": "#fe9562",
+                        "on-primary-container": "#a9a7ff",
+                        "tertiary": "#511c00",
+                        "secondary": "#006a61",
+                        "surface-variant": "#1e293b",
+                        "on-secondary-container": "#006f66",
+                        "inverse-surface": "#f3eff9",
+                        "on-background": "#f8fafc",
+                        "error-container": "#ffdad6",
+                        "surface-container": "#0f172a",
+                        "surface-dim": "#dcd8e3",
+                        "on-secondary-fixed": "#00201d",
+                        "on-error": "#ffffff",
+                        "on-surface": "#f8fafc",
+                        "tertiary-fixed": "#ffdbcc",
+                        "surface-tint": "#544fc0",
+                        "on-tertiary-fixed-variant": "#7a3003",
+                        "primary-fixed": "#e2dfff",
+                        "on-secondary": "#ffffff",
+                        "outline": "#64748b",
+                        "surface-container-lowest": "#020617",
+                        "on-tertiary": "#ffffff",
+                        "on-surface-variant": "#94a3b8"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "gutter": "24px",
+                        "container-max": "1280px",
+                        "md": "24px",
+                        "lg": "40px",
+                        "sm": "12px",
+                        "base": "8px",
+                        "xl": "64px"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "h3": ["Inter"],
+                        "h2": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "h1": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "h3": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-sm": ["12px", {"lineHeight": "1", "fontWeight": "500"}],
+                        "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tap-highlight-transparent {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen pb-24">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 flex justify-between items-center px-6 py-3 w-full bg-slate-950/80 backdrop-blur-md shadow-none font-inter antialiased text-sm font-medium border-b border-slate-800">
+<div class="flex items-center gap-2">
+<span class="text-xl font-black tracking-tight text-indigo-400">ShopChat</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-400 hover:text-indigo-300 transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-indigo-900 flex items-center justify-center border border-indigo-500/30 overflow-hidden">
+<img alt="Merchant Logo" class="w-full h-full object-cover" data-alt="A professional high-contrast portrait of a modern entrepreneur used as a merchant avatar. The lighting is dramatic and moody with deep indigo shadows and crisp teal highlights on the face. The background is a clean, dark slate color, maintaining a sophisticated corporate aesthetic consistent with a high-end enterprise software application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxM4xKiiw-EjgKLV8W8lIbdK7XF30549vA8-PeVv_oqNHLvSBxGGQIp6MGN-Pj8NjmIEZUAD3Dnf6ZNYVo956gO-mIKpCz5Gw9H1ZgLJlWKZLvkoPzcuNOG6rP5sUzKxfPrQE5DL35n7Zx6zmSkNx5Kx9Fo7csYdk3zVCXf0hYF0qqCbmRbbHS-3YAa-hpxhR9HuqbcaVTVpsutNlnWLLAjN6vML_nHA-DMQ0jv5rUKrBf2YzPZZryY1nSivXLRC56iA9t7ZZUcVa5"/>
+</div>
+</div>
+</header>
+<main class="px-gutter pt-8 max-w-lg mx-auto">
+<!-- Header Section -->
+<div class="mb-8">
+<h1 class="font-h1 text-h2 text-on-background mb-1">Store Dashboard</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Welcome back, ShopChat Pro Merchant.</p>
+</div>
+<!-- Metrics Bento Grid -->
+<div class="grid grid-cols-2 gap-4 mb-8">
+<div class="col-span-2 bg-surface-container-low border border-slate-800 p-5 rounded-xl flex flex-col justify-between h-32 relative overflow-hidden">
+<div class="absolute right-[-20px] top-[-20px] text-indigo-500/10 scale-[4]">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Total Sales</span>
+<div>
+<div class="font-h1 text-h2 text-indigo-400">$12,480.00</div>
+<div class="flex items-center gap-1 text-secondary-fixed-dim text-sm font-medium mt-1">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span>+14.2%</span>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low border border-slate-800 p-4 rounded-xl flex flex-col justify-between h-28">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Conversations</span>
+<div class="font-h2 text-h3 text-on-background">42</div>
+</div>
+<div class="bg-surface-container-low border border-slate-800 p-4 rounded-xl flex flex-col justify-between h-28">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">New Orders</span>
+<div class="font-h2 text-h3 text-on-background">18</div>
+</div>
+</div>
+<!-- Growth Insights Card -->
+<div class="mb-8 p-6 rounded-xl bg-gradient-to-br from-indigo-950 to-slate-950 border border-indigo-500/30 shadow-lg shadow-indigo-500/10">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-400">
+<span class="material-symbols-outlined" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<h2 class="font-h3 text-h3 text-indigo-100">Growth Insights</h2>
+</div>
+<p class="font-body-sm text-body-sm text-indigo-200/70 mb-4 leading-relaxed">
+                Your conversational conversion rate is <span class="text-secondary-fixed-dim font-bold">8% higher</span> than last week. Focus on replying to messages within 5 minutes to boost sales.
+            </p>
+<button class="w-full py-3 px-4 bg-indigo-600 text-white rounded-lg font-label-md text-label-md hover:bg-indigo-500 transition-all active:scale-95 shadow-lg shadow-indigo-500/20">
+                View Detailed Report
+            </button>
+</div>
+<!-- Active Conversations Section -->
+<div class="mb-8">
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-h2 text-h3 text-on-background">Active Conversations</h2>
+<button class="text-indigo-400 font-label-md text-label-md">View All</button>
+</div>
+<div class="space-y-4">
+<!-- Conversation Item 1 -->
+<div class="flex items-center gap-4 p-4 bg-surface-container border border-slate-800 rounded-xl active:bg-slate-800 transition-colors cursor-pointer">
+<div class="relative">
+<div class="w-12 h-12 rounded-full overflow-hidden border border-slate-700">
+<img alt="Customer Avatar" class="w-full h-full object-cover" data-alt="A close-up high-resolution portrait of a young female customer with a friendly expression. The lighting is soft and warm against a minimalist, dark slate background. This portrait is intended for a premium seller dashboard interface, emphasizing a personalized and high-end customer service experience with indigo and teal color accents." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNYoLlMBb_-KETebaXNOTT522phR0C_OjvINhFfxI2zTHBLiJb6alQRsxq9URQkcUl1udrz6TGNoCXFoek1P_Yptg9utudb9z4oPetL8ZLz-6IDaz8otP7UJ3YW80QUHX3fczbUtv2JvD_bd3yuMNFh6fSZHAlCOiDLqrTSukIDwCqxtZrjVBwkUR01bPz0YjYjJ5kDTowUyB93fAPV4fjMjnKixjMtDAiVqETVITm2Nl4u-5MvZUpXfLnW4LqZmEzo3qFUp5uEQCR"/>
+</div>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-secondary-fixed-dim rounded-full border-2 border-slate-900"></div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-0.5">
+<span class="font-h3 text-body-md font-semibold text-on-background">Sarah Jenkins</span>
+<span class="font-label-sm text-label-sm text-slate-500">2m ago</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate w-48">"Does the blue edition come in XXL?"</p>
+</div>
+</div>
+<!-- Conversation Item 2 -->
+<div class="flex items-center gap-4 p-4 bg-surface-container border border-slate-800 rounded-xl active:bg-slate-800 transition-colors cursor-pointer">
+<div class="relative">
+<div class="w-12 h-12 rounded-full overflow-hidden border border-slate-700">
+<img alt="Customer Avatar" class="w-full h-full object-cover" data-alt="A professional portrait of a customer for a high-end e-commerce application. The lighting is crisp and cool-toned, with subtle indigo highlights on the subject's features. The background is a sophisticated dark grey, maintaining the luxurious dark-mode feel of the ShopChat ecosystem and conveying trust and reliability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaSJMKmpV4y-fDrzb001t19zdEJ6wLG_XuSQx9vulio0Oy9CxI_L6mpMvAGvo1p2DcO5G7L63NOraLY4XrFsNUcSm0SogqLb9zWJO_OSv3mO3UyiyG7UDzKHguMYiTu90sRVvyUheKsDmfSjCf5CC0fbwIqpMsQHpyXcaFxJKUmZEswSbK5cWHKmPpaq39px2KFMg7KN0teQSoDm5JnnaiB06tRyWKtr44gTsR_zWRPSG-cpl6gOjuJNf-s51v-6uWCQw7efTHlnAM"/>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-0.5">
+<span class="font-h3 text-body-md font-semibold text-on-background">Marcus Thorne</span>
+<span class="font-label-sm text-label-sm text-slate-500">14m ago</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate w-48">"I need to change my shipping address."</p>
+</div>
+<div class="bg-indigo-600 text-white text-[10px] font-bold px-2 py-1 rounded-full">2</div>
+</div>
+<!-- Conversation Item 3 -->
+<div class="flex items-center gap-4 p-4 bg-surface-container border border-slate-800 rounded-xl active:bg-slate-800 transition-colors cursor-pointer opacity-80">
+<div class="relative">
+<div class="w-12 h-12 rounded-full overflow-hidden border border-slate-700">
+<img alt="Customer Avatar" class="w-full h-full object-cover" data-alt="A studio-lit portrait of a customer used for a messaging interface. The style is clean and modern, featuring an elegant woman with soft rim lighting that pops against a dark charcoal background. The image has a cinematic feel with deep shadows and vibrant cool-toned highlights, fitting perfectly into an enterprise-level dark mode UI." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbZQhfJ9XGUrjR0Pn8HzR7M87UPp6D-WMptTvuhLGdEUzJ5SK9Rit7TLB06w7Z_xMRcypUbjsxTn4sulELOMiT4ntXj_FtnZwD4_fyjudmARODAEojeHoZfnya6Niu-Uzw8-oEUPAqByxsfRWzPj5HMxLqHCbdG0Lpvi1EKpSQWZWeHFYSoBoHtyRgw5PcNaPllH0pEwgzuoEiaOk2vcETduo52ICFzfDeZi4iuvOVsEBE3ZG2vmYnDmXxMtci27MCpzp8Td_0iXdA"/>
+</div>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-center mb-0.5">
+<span class="font-h3 text-body-md font-semibold text-on-background">Elena Rodriguez</span>
+<span class="font-label-sm text-label-sm text-slate-500">1h ago</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate w-48">"Thanks for the help! Order received."</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-slate-950/90 backdrop-blur-xl border-t border-slate-800 rounded-t-2xl shadow-[0_-4px_12px_rgba(0,0,0,0.5)]">
+<a class="flex flex-col items-center justify-center text-indigo-400 scale-110 tap-highlight-transparent transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-wider mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 tap-highlight-transparent transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="receipt">receipt</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-wider mt-1">Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 tap-highlight-transparent transition-transform duration-200" href="#">
+<div class="relative">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<div class="absolute -top-1 -right-1 w-2 h-2 bg-indigo-500 rounded-full"></div>
+</div>
+<span class="font-inter text-[10px] font-bold uppercase tracking-wider mt-1">Chat</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 tap-highlight-transparent transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-inter text-[10px] font-bold uppercase tracking-wider mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

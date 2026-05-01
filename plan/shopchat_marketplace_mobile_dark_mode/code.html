@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#006a61",
+                    "surface": "#fcf8ff",
+                    "background": "#fcf8ff",
+                    "on-error-container": "#93000a",
+                    "on-secondary-container": "#006f66",
+                    "inverse-primary": "#c3c0ff",
+                    "on-secondary-fixed-variant": "#005049",
+                    "inverse-on-surface": "#f3eff9",
+                    "surface-dim": "#dcd8e3",
+                    "surface-bright": "#fcf8ff",
+                    "secondary-container": "#86f2e4",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#e4e1eb",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#ffdbcc",
+                    "secondary-fixed": "#89f5e7",
+                    "on-tertiary-fixed-variant": "#7a3003",
+                    "on-surface-variant": "#464553",
+                    "on-error": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed-variant": "#3b35a7",
+                    "outline": "#777584",
+                    "tertiary-fixed-dim": "#ffb694",
+                    "primary-container": "#3730a3",
+                    "inverse-surface": "#303037",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed-dim": "#6bd8cb",
+                    "primary": "#1f108e",
+                    "on-primary-container": "#a9a7ff",
+                    "on-tertiary-fixed": "#351000",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#0f0069",
+                    "surface-container": "#f0ecf6",
+                    "on-background": "#1b1b22",
+                    "surface-tint": "#544fc0",
+                    "tertiary-container": "#752c00",
+                    "outline-variant": "#c8c4d5",
+                    "on-tertiary-container": "#fe9562",
+                    "surface-container-highest": "#e4e1eb",
+                    "surface-container-high": "#eae6f1",
+                    "on-surface": "#1b1b22",
+                    "primary-fixed": "#e2dfff",
+                    "on-secondary-fixed": "#00201d",
+                    "error-container": "#ffdad6",
+                    "surface-container-low": "#f6f2fc",
+                    "tertiary": "#511c00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "xl": "64px",
+                    "sm": "12px",
+                    "md": "24px",
+                    "xs": "4px",
+                    "container-max": "1280px",
+                    "lg": "40px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "h3": ["Inter"],
+                    "h1": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "label-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "h2": ["Inter"]
+            },
+            "fontSize": {
+                    "h3": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "1", "fontWeight": "500"}],
+                    "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0f172a; /* Slate 900 for Dark Mode base */
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-header {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm border-b border-slate-100 dark:border-slate-800">
+<div class="flex items-center justify-between px-4 h-16 w-full">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-indigo-700 dark:text-indigo-400" data-icon="forum">forum</span>
+<h1 class="text-xl font-black tracking-tight text-indigo-900 dark:text-white font-inter antialiased font-semibold">ShopChat</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined text-slate-500 dark:text-slate-400" data-icon="search">search</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary-container overflow-hidden ring-2 ring-indigo-500/20">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A professional studio portrait of a modern young entrepreneur with a friendly expression. The lighting is soft and cinematic, utilizing a dark slate background with subtle indigo rim lighting. The aesthetic is high-end corporate yet approachable, perfectly matching the modern dark-themed marketplace interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVpflKnJ7MVlH60kMBmYXYZ-HFe3TZkVl89F97vFFkkEkGKtYHcusdF7lHWJUBvzJeU1L3vj8HKf_mWWK7DFQ1Jp6izTgRetsNzln2H4gRMtqJCesc8HXY6r1Iyig8BBNu7dqep_DQrbim92pSh6PLCF1eP780STC3xzKQEWsFnWi1IO6D3usjs-oc8_aIZJETBFCF5-m8kfonIRz7pb05gi5qBTouSZ6vXnzDGVqRShe5Et3zXXUOXhbYUFR2IHCg3BIONLu1-0rX"/>
+</div>
+</div>
+</div>
+</header>
+<main class="pt-20 pb-28 px-4 max-w-container-max mx-auto">
+<!-- Search & Filter Section -->
+<div class="mb-8 space-y-4">
+<div class="relative group">
+<input class="w-full h-12 pl-12 pr-4 rounded-xl bg-slate-800/50 border border-slate-700 text-white placeholder-slate-500 focus:ring-2 focus:ring-secondary focus:border-transparent transition-all outline-none" placeholder="Search products, sellers..." type="text"/>
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-secondary" data-icon="search">search</span>
+</div>
+<!-- Category Chips -->
+<div class="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+<button class="px-5 py-2 rounded-full bg-primary-container text-white text-label-sm whitespace-nowrap">All Items</button>
+<button class="px-5 py-2 rounded-full bg-slate-800 text-slate-300 text-label-sm border border-slate-700 whitespace-nowrap hover:bg-slate-700">Electronics</button>
+<button class="px-5 py-2 rounded-full bg-slate-800 text-slate-300 text-label-sm border border-slate-700 whitespace-nowrap hover:bg-slate-700">Home Office</button>
+<button class="px-5 py-2 rounded-full bg-slate-800 text-slate-300 text-label-sm border border-slate-700 whitespace-nowrap hover:bg-slate-700">Audio</button>
+<button class="px-5 py-2 rounded-full bg-slate-800 text-slate-300 text-label-sm border border-slate-700 whitespace-nowrap hover:bg-slate-700">Lighting</button>
+</div>
+</div>
+<!-- Marketplace Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Product 1: Keyboard -->
+<article class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-lg group hover:shadow-indigo-500/10 transition-all duration-300">
+<div class="aspect-square relative overflow-hidden bg-slate-800">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A high-end mechanical keyboard with custom keycaps and vibrant RGB backlighting set in a dark, moody gaming room. The environment is illuminated by cool blue and purple indigo tones. The product is shot from a low angle to emphasize its premium build quality and tactile features, reflecting a modern corporate aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmtphENZP-MVkBLZho1OsDkUUJpZBQvHw4VrsFdIwDLftnpUPwur9wxu-WmQUyPj_mRF-I21vvbOA3IpjVmROaVSdb79Uw5mDIqaq4wHuZc50lHHb8CcaeuBdlkZDFkU4WLGu41hwtfyyJ-mGULopYTCbg3cYnmC6GjMyJNOK9J8Am3frcagQuJ5Cy65mX0jBthVtfeHB0qvFyDlicP4UEnkqXszl7enJnpRPC1LFRivlSrKWBA_Wd-VnMLkJmf60Z6twzuZmV8IL5"/>
+<div class="absolute top-3 right-3">
+<button class="w-10 h-10 rounded-full bg-slate-900/60 backdrop-blur-md flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+</div>
+</div>
+<div class="p-4 space-y-3">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-h3 text-white text-lg">Tactile Pro Wireless</h3>
+<p class="text-slate-400 text-body-sm">Mechanical Keyboard</p>
+</div>
+<span class="font-bold text-indigo-400 text-lg">$189.00</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex text-amber-400">
+<span class="material-symbols-outlined text-[16px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="star">star</span>
+</div>
+<span class="text-slate-500 text-body-sm">(42)</span>
+</div>
+<button class="w-full py-3 bg-secondary text-white rounded-xl font-semibold flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="chat_bubble">chat_bubble</span>
+                        Ask Seller
+                    </button>
+</div>
+</article>
+<!-- Product 2: Headphones -->
+<article class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-lg group hover:shadow-indigo-500/10 transition-all duration-300">
+<div class="aspect-square relative overflow-hidden bg-slate-800">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Minimalist professional studio headphones resting on a sleek dark surface. The lighting is focused and dramatic, highlighting the leather textures and metallic finishes with soft indigo and teal accents. The setting is clean and high-tech, evoking a sense of premium audio quality and modern sophistication." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBc9FnaKUgiVq1Do95PzM6s5wzUeTqcYghigWlTS6CZhvn0nbP6I4lL8J2GcmIiTiIlhvl241-reR4AlnZtBlIaiuQ7ro7juuI7R1kKl8Ue_mBrEOh0ANQLFzen2oj9aykZjsXuxLtF03iL-UUOaP6JV-MRDwVxNQinkCpI0CAuAnrviw-oy0GtjcO1bz5RufgWv7rhZjTpwL1avQCnWENA4p_DZzC3IWuznDXxoTIrFxfFrRgW-WguYtQ6zWdgMBthlmPVnT--x3uc"/>
+<div class="absolute top-3 right-3">
+<button class="w-10 h-10 rounded-full bg-slate-900/60 backdrop-blur-md flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+</div>
+</div>
+<div class="p-4 space-y-3">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-h3 text-white text-lg">Acoustic Zen 500</h3>
+<p class="text-slate-400 text-body-sm">Noise Cancelling</p>
+</div>
+<span class="font-bold text-indigo-400 text-lg">$299.99</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex text-amber-400">
+<span class="material-symbols-outlined text-[16px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+</div>
+<span class="text-slate-500 text-body-sm">(128)</span>
+</div>
+<button class="w-full py-3 bg-secondary text-white rounded-xl font-semibold flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="chat_bubble">chat_bubble</span>
+                        Ask Seller
+                    </button>
+</div>
+</article>
+<!-- Product 3: Lamp -->
+<article class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-lg group hover:shadow-indigo-500/10 transition-all duration-300">
+<div class="aspect-square relative overflow-hidden bg-slate-800">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A futuristic minimalist desk lamp providing a warm atmospheric glow against a dark, slate-colored office backdrop. The lamp has a sleek, articulated arm and is emitting a soft indigo-tinted light that spills across a mahogany desk. The mood is calm, professional, and sophisticated, reflecting high-end interior design for a modern workspace." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZoqTwH0MJck8QS6-M42SkNfpvux6ZEY3w-4EroljhE3bwDBUOjr9Egunnx4PCLkoa0kXqB1Hn4T8xE9gZyIdHVTjU0DV-ttSH9Hsea7i4lSGmeN5mtdq-iBlkIRhRZ_tcFR9xJWm6KGmf6Qh4EklzPmTNUzkIFDj7ixS-nFa9wFZQjsbDPEKIyjnrHwPRnue7Pt7R0iH3qWeIBYbYuch4ooJ25sfKwR8wdSZ8Wx_zZ4pC_DXPk27jmu03oC4-cShtUhzmgAvGx8YR"/>
+<div class="absolute top-3 right-3">
+<button class="w-10 h-10 rounded-full bg-slate-900/60 backdrop-blur-md flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+</div>
+</div>
+<div class="p-4 space-y-3">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-h3 text-white text-lg">Lumina Arc Pro</h3>
+<p class="text-slate-400 text-body-sm">Smart Desk Lamp</p>
+</div>
+<span class="font-bold text-indigo-400 text-lg">$75.50</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="flex text-amber-400">
+<span class="material-symbols-outlined text-[16px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="star" data-weight="fill" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px]" data-icon="star_half">star_half</span>
+</div>
+<span class="text-slate-500 text-body-sm">(18)</span>
+</div>
+<button class="w-full py-3 bg-secondary text-white rounded-xl font-semibold flex items-center justify-center gap-2 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-[20px]" data-icon="chat_bubble">chat_bubble</span>
+                        Ask Seller
+                    </button>
+</div>
+</article>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-2 bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 shadow-[0_-4px_12px_rgba(0,0,0,0.05)] z-50">
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-3 py-1 hover:text-indigo-600 dark:hover:text-indigo-300 transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span class="text-[11px] font-medium font-inter">Discover</span>
+</a>
+<a class="flex flex-col items-center justify-center text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/40 rounded-2xl px-3 py-1 transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span class="text-[11px] font-medium font-inter">Market</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-3 py-1 hover:text-indigo-600 dark:hover:text-indigo-300 transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="text-[11px] font-medium font-inter">Chats</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-500 dark:text-slate-400 px-3 py-1 hover:text-indigo-600 dark:hover:text-indigo-300 transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="text-[11px] font-medium font-inter">Account</span>
+</a>
+</nav>
+<!-- Floating Action Button - Sell Item -->
+<button class="fixed bottom-24 right-6 w-14 h-14 bg-indigo-600 text-white rounded-full shadow-lg shadow-indigo-500/20 flex items-center justify-center active:scale-95 transition-transform z-40">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</body></html>

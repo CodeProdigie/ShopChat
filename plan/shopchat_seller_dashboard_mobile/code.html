@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-container-high": "#eae6f1",
+                    "outline-variant": "#c8c4d5",
+                    "on-primary-fixed-variant": "#3b35a7",
+                    "surface": "#fcf8ff",
+                    "surface-container-low": "#f6f2fc",
+                    "on-secondary-fixed-variant": "#005049",
+                    "on-error-container": "#93000a",
+                    "on-primary": "#ffffff",
+                    "secondary-fixed": "#89f5e7",
+                    "secondary-fixed-dim": "#6bd8cb",
+                    "tertiary-fixed-dim": "#ffb694",
+                    "surface-container-highest": "#e4e1eb",
+                    "secondary-container": "#86f2e4",
+                    "inverse-on-surface": "#f3eff9",
+                    "on-tertiary-fixed": "#351000",
+                    "on-primary-fixed": "#0f0069",
+                    "background": "#fcf8ff",
+                    "primary": "#1f108e",
+                    "inverse-primary": "#c3c0ff",
+                    "error": "#ba1a1a",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "primary-container": "#3730a3",
+                    "surface-bright": "#fcf8ff",
+                    "tertiary-container": "#752c00",
+                    "on-tertiary-container": "#fe9562",
+                    "on-primary-container": "#a9a7ff",
+                    "tertiary": "#511c00",
+                    "secondary": "#006a61",
+                    "surface-variant": "#e4e1eb",
+                    "on-secondary-container": "#006f66",
+                    "inverse-surface": "#303037",
+                    "on-background": "#1b1b22",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#f0ecf6",
+                    "surface-dim": "#dcd8e3",
+                    "on-secondary-fixed": "#00201d",
+                    "on-error": "#ffffff",
+                    "on-surface": "#1b1b22",
+                    "tertiary-fixed": "#ffdbcc",
+                    "surface-tint": "#544fc0",
+                    "on-tertiary-fixed-variant": "#7a3003",
+                    "primary-fixed": "#e2dfff",
+                    "on-secondary": "#ffffff",
+                    "outline": "#777584",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "on-surface-variant": "#464553"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "gutter": "24px",
+                    "container-max": "1280px",
+                    "md": "24px",
+                    "lg": "40px",
+                    "sm": "12px",
+                    "base": "8px",
+                    "xl": "64px"
+            },
+            "fontFamily": {
+                    "body-md": ["Inter"],
+                    "h3": ["Inter"],
+                    "h2": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "label-md": ["Inter"],
+                    "h1": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "h3": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1", "fontWeight": "500"}],
+                    "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tap-highlight-transparent {
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            background-color: #fcf8ff;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-background selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="sticky top-0 z-50 flex justify-between items-center px-6 py-3 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-md font-inter antialiased text-sm font-medium shadow-sm dark:shadow-none border-b border-slate-200 dark:border-slate-800">
+<div class="flex items-center gap-3">
+<span class="text-xl font-black tracking-tight text-indigo-700 dark:text-indigo-400">ShopChat</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-500 dark:text-slate-400 active:opacity-80 transition-all">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border border-outline-variant">
+<img alt="User Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a modern entrepreneur with a clean-cut appearance, set against a blurred corporate office background. The lighting is bright and airy, reflecting a professional light-mode aesthetic with soft shadows. The overall mood is confident and expert, matching a high-end enterprise software user profile with natural skin tones and a sharp indigo suit." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDiWy1fGmvnjh3-tjQnATQGPzaWf9ZrV135a-AQcJTJ-oPawaBFNvjJRjufEdMoYgkLcE-Mecb7QkcWJ4Rr_uZUh08YcnLBD8b13aAkGJsCLrOWPRL4vhsDblCrJbhYxsOVUDXvze0reXewLoJFtUJgeFBotY-Wfa7_6e8XDLkyDIlCtk4Rga2R-rN0JDwxa5hWAV1jiqFC_u5Q5uYNHuSgliUMvQYIoIcWtnzfe5e2ZsVZS3-3TjFy935sHxbxQlCXuzVS8QG6H2ee"/>
+</div>
+</div>
+</nav>
+<main class="px-gutter pb-32 pt-6 max-w-container-max mx-auto">
+<!-- Dashboard Header -->
+<header class="mb-8">
+<h1 class="font-h1 text-h2 text-on-background mb-2">Merchant Overview</h1>
+<p class="font-body-sm text-on-surface-variant">Welcome back, your store is performing well today.</p>
+</header>
+<!-- Metrics Grid -->
+<section class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-10">
+<!-- Total Sales -->
+<div class="col-span-2 md:col-span-1 p-6 rounded-xl bg-surface-container-lowest border border-outline-variant shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+<div class="flex justify-between items-start mb-4">
+<span class="p-2 rounded-lg bg-indigo-50 text-indigo-700">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+</span>
+<span class="text-secondary font-label-md flex items-center gap-1">
+                        +12% <span class="material-symbols-outlined text-[16px]" data-icon="trending_up">trending_up</span>
+</span>
+</div>
+<p class="font-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Total Sales</p>
+<p class="font-h3 text-h3 text-on-surface">$12,840.00</p>
+</div>
+<!-- Active Conversations -->
+<div class="p-6 rounded-xl bg-surface-container-lowest border border-outline-variant shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+<div class="flex justify-between items-start mb-4">
+<span class="p-2 rounded-lg bg-secondary-container text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+</span>
+</div>
+<p class="font-label-sm text-on-surface-variant uppercase tracking-wider mb-1">Conversations</p>
+<p class="font-h3 text-h3 text-on-surface">24</p>
+</div>
+<!-- New Orders -->
+<div class="p-6 rounded-xl bg-surface-container-lowest border border-outline-variant shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+<div class="flex justify-between items-start mb-4">
+<span class="p-2 rounded-lg bg-tertiary-container text-on-tertiary-container">
+<span class="material-symbols-outlined" data-icon="shopping_basket">shopping_basket</span>
+</span>
+</div>
+<p class="font-label-sm text-on-surface-variant uppercase tracking-wider mb-1">New Orders</p>
+<p class="font-h3 text-h3 text-on-surface">8</p>
+</div>
+</section>
+<!-- Growth Insights Bento -->
+<section class="mb-10">
+<div class="bg-primary text-on-primary p-6 rounded-2xl relative overflow-hidden">
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-2">
+<span class="material-symbols-outlined text-secondary-fixed" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-label-md text-primary-fixed-dim uppercase tracking-widest">Growth Insights</span>
+</div>
+<h2 class="font-h2 text-h3 mb-4 leading-tight">Conversation rates are up by 15% this week.</h2>
+<p class="font-body-sm text-on-primary-container max-w-[80%] mb-6">Responding to messages within 5 minutes has increased your checkout conversion by 22% compared to last month.</p>
+<button class="bg-secondary-fixed text-on-secondary-fixed px-6 py-3 rounded-full font-label-md flex items-center gap-2 active:scale-95 transition-transform">
+                        View Analytics
+                        <span class="material-symbols-outlined text-[18px]" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Decorative element -->
+<div class="absolute -right-10 -bottom-10 w-40 h-40 bg-on-primary-container/10 rounded-full blur-3xl"></div>
+<div class="absolute right-6 top-6 opacity-20">
+<span class="material-symbols-outlined text-[120px]" data-icon="insights">insights</span>
+</div>
+</div>
+</section>
+<!-- Active Conversations List -->
+<section class="mb-12">
+<div class="flex justify-between items-center mb-6">
+<h2 class="font-h3 text-h3 text-on-background">Active Conversations</h2>
+<button class="text-primary font-label-md flex items-center gap-1">
+                    View All <span class="material-symbols-outlined text-[16px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<div class="space-y-3">
+<!-- Conversation Item 1 -->
+<div class="flex items-center gap-4 p-4 bg-surface-container-low rounded-xl border border-transparent hover:border-outline-variant transition-all cursor-pointer">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm" data-alt="A candid, high-quality portrait of a young woman with a warm, friendly expression, set in a natural outdoor environment with soft, golden hour sunlight. The style is modern and minimalist, featuring a clean color palette that emphasizes clarity and human connection. The lighting creates a gentle glow that fits a welcoming customer-facing interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPm9oLvdS8VngsAunU5MAalWbnFhQ6rJWMZPiW6wo1wdmF91PQtX661K4GjnKuHIu8MqzXheS7xxqn0Ax_SW31q9yw6lIQXHlZ_420NcgtQ-ySMY9d52mgZAOTMJ8B1jqyYXXpV5uT8h0qNWZf4qSVM0lJUMttBrDqq54x-H5a9M-I53RyRMyUTZFZmjAmqhMV71s7XZU62JUtnnSSK9m9jFhN0mOks1aCswNJM3p11McPW-N7WoPh8w_D09byJ1otlOLuDyK-N510"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-secondary rounded-full border-2 border-surface-container-low"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-0.5">
+<h3 class="font-label-md text-on-surface truncate">Sarah Jenkins</h3>
+<span class="text-[10px] text-on-surface-variant font-medium">2m ago</span>
+</div>
+<p class="font-body-sm text-on-surface-variant truncate">"Is this item available in the deep indigo color?"</p>
+</div>
+<div class="bg-primary-container text-on-primary-container w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold">2</div>
+</div>
+<!-- Conversation Item 2 -->
+<div class="flex items-center gap-4 p-4 bg-surface-container-low rounded-xl border border-transparent hover:border-outline-variant transition-all cursor-pointer">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm" data-alt="A portrait of a male professional with a thoughtful expression, photographed in a sleek, modern architectural setting with high-contrast, directional lighting. The color scheme is dominated by cool tones and clean whites, aligning with a corporate minimalist design system. The mood is sophisticated and reliable, conveying expertise through a clean visual presentation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEc4vYc9A3qTJfth7zhr5iR5IHinP71pt6WXt6UJedCcO_s1Dy9jDmLHliL0qnaEmKRAkEQJGezL4_PByfPKjRfilPqruZn9vH_MkE_7ImF4zb02wFIy2oQJjqrnid3xGOQV9-w_DQQVHWInl2mkQxokJZuyk7NMUX0TNrrCmPQI-4OB0HXOXcOGXgbAUfaksmnqGSJvGIhXyNRLwzFBlxx5bMBMJvWHqpTZi79zGfrcGRo8hkIUw6phcC92taCepI98qXXm8rrmsP"/>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-0.5">
+<h3 class="font-label-md text-on-surface truncate">Michael Chen</h3>
+<span class="text-[10px] text-on-surface-variant font-medium">15m ago</span>
+</div>
+<p class="font-body-sm text-on-surface-variant truncate">"I'd like to adjust the shipping address for order #8421."</p>
+</div>
+</div>
+<!-- Conversation Item 3 -->
+<div class="flex items-center gap-4 p-4 bg-surface-container-low rounded-xl border border-transparent hover:border-outline-variant transition-all cursor-pointer">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover border-2 border-white shadow-sm" data-alt="A close-up fashion portrait of a stylish person with vibrant accessories, set against a minimalist pastel backdrop. The lighting is studio-quality, soft and even, highlighting textures and colors with a sophisticated modern aesthetic. The overall mood is creative and approachable, perfectly suited for a high-end conversational marketplace platform." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAy3VJwVOF7dMLw4z6e4zyLxLWSypkgVs0mKCPedjDUrmYqUld0QbrTcUF-oj02G2djV3_jHBlqAl2WAUJCl7AXbg7iIFqnVdQzbKC9JVDVe5dv_gl2udp_RXtxVPVsoV6JZP1y1ILZyeLa_amsxYKJBNQR_cRYS0nLGg4u9TmVxnRHo9A3HPaesTCvqHldirjS0mV3cCNdxlldtqAMJal9oOBh1B5YZZYlCjx1LMUiwUKyvoxWLI4ilF8pnIMSShFf9f31g8hll4PT"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-secondary rounded-full border-2 border-surface-container-low"></div>
+</div>
+<div class="flex-1 min-w-0">
+<div class="flex justify-between items-center mb-0.5">
+<h3 class="font-label-md text-on-surface truncate">Elena Rodriguez</h3>
+<span class="text-[10px] text-on-surface-variant font-medium">1h ago</span>
+</div>
+<p class="font-body-sm text-on-surface-variant truncate">"Thanks for the quick refund! I'll definitely order again."</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Quick Actions -->
+<section class="grid grid-cols-2 gap-4 mb-8">
+<button class="flex flex-col items-center justify-center p-6 rounded-2xl bg-surface-container-highest/50 border border-outline-variant active:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-primary mb-2" data-icon="add_circle">add_circle</span>
+<span class="font-label-sm text-on-surface-variant uppercase">New Product</span>
+</button>
+<button class="flex flex-col items-center justify-center p-6 rounded-2xl bg-surface-container-highest/50 border border-outline-variant active:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined text-primary mb-2" data-icon="campaign">campaign</span>
+<span class="font-label-sm text-on-surface-variant uppercase">Run Promo</span>
+</button>
+</section>
+</main>
+<!-- FAB (Book a Walk logic: Contextual FAB) - Not rendered as this is a Dashboard/Conversations focus -->
+<!-- BottomNavBar -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 shadow-[0_-4px_12px_rgba(0,0,0,0.05)] rounded-t-2xl">
+<a class="flex flex-col items-center justify-center text-indigo-700 dark:text-indigo-400 scale-110 font-inter text-[10px] font-bold uppercase tracking-wider tap-highlight-transparent transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span>Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 font-inter text-[10px] font-bold uppercase tracking-wider tap-highlight-transparent transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="receipt">receipt</span>
+<span>Orders</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 font-inter text-[10px] font-bold uppercase tracking-wider tap-highlight-transparent transition-transform duration-200 relative" href="#">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span>Chat</span>
+<span class="absolute top-0 -right-1 w-2 h-2 bg-error rounded-full"></span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 font-inter text-[10px] font-bold uppercase tracking-wider tap-highlight-transparent transition-transform duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span>Profile</span>
+</a>
+</nav>
+<!-- Footer -->
+<footer class="w-full py-8 px-6 flex flex-col md:flex-row justify-between items-center gap-4 bg-white dark:bg-slate-950 border-t border-slate-100 dark:border-slate-900 pb-28">
+<span class="font-bold text-indigo-700 dark:text-indigo-400">ShopChat</span>
+<p class="font-inter text-xs text-slate-500 dark:text-slate-400">© 2024 ShopChat Technologies Inc.</p>
+<div class="flex gap-4">
+<a class="font-inter text-xs text-slate-500 dark:text-slate-400 no-underline hover:text-indigo-600 transition-colors" href="#">Help Center</a>
+<a class="font-inter text-xs text-slate-500 dark:text-slate-400 no-underline hover:text-indigo-600 transition-colors" href="#">Privacy Policy</a>
+</div>
+</footer>
+</body></html>

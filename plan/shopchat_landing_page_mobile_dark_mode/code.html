@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary": "#006a61",
+                    "surface": "#fcf8ff",
+                    "background": "#fcf8ff",
+                    "on-error-container": "#93000a",
+                    "on-secondary-container": "#006f66",
+                    "inverse-primary": "#c3c0ff",
+                    "on-secondary-fixed-variant": "#005049",
+                    "inverse-on-surface": "#f3eff9",
+                    "surface-dim": "#dcd8e3",
+                    "surface-bright": "#fcf8ff",
+                    "secondary-container": "#86f2e4",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#e4e1eb",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#ffdbcc",
+                    "secondary-fixed": "#89f5e7",
+                    "on-tertiary-fixed-variant": "#7a3003",
+                    "on-surface-variant": "#464553",
+                    "on-error": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed-variant": "#3b35a7",
+                    "outline": "#777584",
+                    "tertiary-fixed-dim": "#ffb694",
+                    "primary-container": "#3730a3",
+                    "inverse-surface": "#303037",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed-dim": "#6bd8cb",
+                    "primary": "#1f108e",
+                    "on-primary-container": "#a9a7ff",
+                    "on-tertiary-fixed": "#351000",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed": "#0f0069",
+                    "surface-container": "#f0ecf6",
+                    "on-background": "#1b1b22",
+                    "surface-tint": "#544fc0",
+                    "tertiary-container": "#752c00",
+                    "outline-variant": "#c8c4d5",
+                    "on-tertiary-container": "#fe9562",
+                    "surface-container-highest": "#e4e1eb",
+                    "surface-container-high": "#eae6f1",
+                    "on-surface": "#1b1b22",
+                    "primary-fixed": "#e2dfff",
+                    "on-secondary-fixed": "#00201d",
+                    "error-container": "#ffdad6",
+                    "surface-container-low": "#f6f2fc",
+                    "tertiary": "#511c00"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "xl": "64px",
+                    "sm": "12px",
+                    "md": "24px",
+                    "xs": "4px",
+                    "container-max": "1280px",
+                    "lg": "40px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "h3": ["Inter"], "h1": ["Inter"], "body-md": ["Inter"], "body-lg": ["Inter"], "body-sm": ["Inter"], "label-md": ["Inter"], "label-sm": ["Inter"], "h2": ["Inter"]
+            },
+            "fontSize": {
+                    "h3": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "1", "fontWeight": "500"}],
+                    "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #0f172a; /* Custom dark deep slate for high impact */
+            color: #f8fafc;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md antialiased overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800 shadow-sm flex items-center justify-between px-4 h-16 w-full">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-indigo-400" data-icon="forum">forum</span>
+<h1 class="text-xl font-black tracking-tight text-white font-h1">ShopChat</h1>
+</div>
+<div class="h-8 w-8 rounded-full bg-indigo-600 flex items-center justify-center border border-indigo-400/30 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a modern executive against a minimalist dark studio background. The subject has a warm but serious expression, illuminated by soft cinematic blue and indigo lighting from the side. The overall aesthetic is clean, high-end, and corporate, matching the sophisticated indigo dark mode palette of the commerce platform application." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCTYxcjkY5OWG7AN-QBC6wBckDb0iOKTwyoQA1OEeHZU7JOiV-BASH6S6qKCYK_7yxebxOrhpKKmoZt8emDsTdGrXwecubreURcht8FcFtEv_kQ-r-TFl5-e_Mu0xjn0UolepN2Forb1wYr9_cqE8QiEgLqdnj6pxMHtBZ_exJg2wMZNKKYKYzaN9hfqum2GpbUT3AfqqIuqr2GswaNXwsQfUMIrHfA5kYOROplqmJ5DQfm0bt5N1ShbZGt5AAmIrVrlwpRsgao_gzl"/>
+</div>
+</header>
+<main class="pt-24 pb-32 px-gutter space-y-md">
+<!-- Hero Section -->
+<section class="space-y-md">
+<div class="space-y-xs">
+<span class="inline-block px-3 py-1 rounded-full bg-indigo-900/50 border border-indigo-500/30 text-indigo-300 font-label-sm uppercase tracking-wider">
+                    Next-Gen Commerce
+                </span>
+<h2 class="font-h1 text-h1 text-white leading-tight">
+                    The commerce platform where <span class="text-indigo-400">chat is the checkout.</span>
+</h2>
+<p class="font-body-lg text-slate-400">
+                    Transform every conversation into a transaction. ShopChat bridges the gap between merchant advice and customer loyalty.
+                </p>
+</div>
+<div class="flex gap-sm">
+<button class="flex-1 bg-indigo-600 text-white py-4 rounded-xl font-h3 text-body-md shadow-lg shadow-indigo-900/40 active:scale-95 transition-transform duration-200">
+                    Get Started
+                </button>
+<button class="flex-1 bg-transparent border-2 border-secondary text-secondary py-4 rounded-xl font-h3 text-body-md active:scale-95 transition-transform duration-200">
+                    Learn More
+                </button>
+</div>
+</section>
+<!-- Bento Grid Features -->
+<section class="grid grid-cols-2 gap-sm">
+<!-- Feature 1: Large -->
+<div class="col-span-2 bg-slate-900/50 border border-slate-800 p-md rounded-2xl space-y-sm">
+<div class="w-12 h-12 bg-indigo-500/20 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-indigo-400" data-icon="rocket_launch">rocket_launch</span>
+</div>
+<h3 class="font-h2 text-h3 text-white">Instant Checkout</h3>
+<p class="font-body-sm text-slate-400">Process payments directly within the thread. No external links, no friction.</p>
+<div class="h-40 w-full rounded-xl overflow-hidden mt-md">
+<img class="w-full h-full object-cover grayscale-[20%] contrast-[1.1]" data-alt="A futuristic close-up of a digital interface showing a seamless payment confirmation on a smartphone. The background features blurred neon indigo and deep violet light trails, creating a sense of rapid speed and high-tech efficiency. The transaction status is displayed with a clean, minimalist teal success icon, evoking confidence and modern security in a corporate digital environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFy3ArEUPfx6wP4NKdigplyOUgZOw2vV5r2suthNghnEYf-SUWV6VcUnGytEGZEoxIEe1skfhsRAat9EzNqmn-nQetx_Me0Ruf_Sv1dVmlfj7VSrZ4HRNuAakUSK3flPEd9gYgl_MF6mED06b_w0wLsCMPkMQgglRZ4xonVIkdHiq5NFXfqCuNQtta1ZnuvM36CZtuHlG-rEmbXYHw3NnO86cNoNL5DJnRKhA0N47RgqYm0AptJPwsWXx1wdHfCtEiZBA-CVzB5z5k"/>
+</div>
+</div>
+<!-- Feature 2: Square -->
+<div class="bg-slate-900/50 border border-slate-800 p-md rounded-2xl flex flex-col justify-between">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="bolt">bolt</span>
+<div class="mt-md">
+<h4 class="font-h3 text-body-md font-bold text-white">AI Replies</h4>
+<p class="font-body-sm text-slate-500 mt-xs">Smart responses for your brand.</p>
+</div>
+</div>
+<!-- Feature 3: Square -->
+<div class="bg-indigo-600 p-md rounded-2xl flex flex-col justify-between text-white">
+<span class="material-symbols-outlined text-3xl" data-icon="trending_up">trending_up</span>
+<div class="mt-md">
+<h4 class="font-h3 text-body-md font-bold text-white">Scale Fast</h4>
+<p class="font-body-sm text-indigo-200 mt-xs">Built for high-volume chat.</p>
+</div>
+</div>
+<!-- Feature 4: Wide -->
+<div class="col-span-2 bg-slate-900 border border-slate-800 p-gutter rounded-2xl flex items-center gap-md">
+<div class="flex-1 space-y-xs">
+<h3 class="font-h2 text-h3 text-white">Merchant Dashboard</h3>
+<p class="font-body-sm text-slate-400">Monitor every interaction and conversion in real-time with deep analytics.</p>
+</div>
+<div class="w-24 h-24 bg-slate-800 rounded-full flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-indigo-400 text-4xl" data-icon="analytics" style="font-variation-settings: 'FILL' 1;">analytics</span>
+</div>
+</div>
+</section>
+<!-- Secondary CTA / Social Proof -->
+<section class="bg-indigo-950/30 border border-indigo-500/20 p-gutter rounded-3xl text-center space-y-md">
+<div class="flex justify-center -space-x-2">
+<img class="w-10 h-10 rounded-full border-2 border-slate-900" data-alt="Close up portrait of a professional male user profile with soft blue ambient lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCMctzzsJphelc7S-_FSDhm43_vAw2SYZmhyn-3a4GpoeYjnge1I300HxJwKOcKXdCB7laKDKKjbpEk2R13CP9uionjEkIEzADErQI4FqXm5coENIHcHo5UkjAgqvZniHM6a2zUqSw3HD-4XILmllXNRzr4fGGs6EzgrJh1AfftBGGj3g0eG46Pk7OHxX68NEwFf-4eC5VPezpvzXJPDtO57PCySjzUPTj_ENyK4oWwhANLSusUBfMpgLlJedtY3QUUudJ33iOWdTe6"/>
+<img class="w-10 h-10 rounded-full border-2 border-slate-900" data-alt="Close up portrait of a professional female user profile with soft purple lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIvIfFAy-WcWzNXQDXNLfiLNhWo1ea-0GGjhkWrTY43vdJcYe6QU2f1drq0cdPp5uMi-dZaHOl45r-iPKSduz7x6E0wPgu4minrIAn_iLwMfqBI6dkam2Mdp6dEb7tNeGDW3KV0xZ8j_358EDn5YQGyyAu-sW8ZSnoSnoYtKAMWIyoGBlNRS_wH-XacscwzlQlQI3jqbh6yUC_bmBteYXTMTujs55zORC-LHb34stTrIzJQQjoi16Cp8OwrCtgvwgSS0T5o0xEbdWY"/>
+<img class="w-10 h-10 rounded-full border-2 border-slate-900" data-alt="Close up portrait of a young professional user profile in a high-key dark studio setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBe0L9pP7FlMJCxBOu4EYywNGY1dIG8VGgJ5L-_lO36r5OR-vORMXyPs9sqRNJ7IzKxPbMQuh4pNWMUxLVJfKf3dwb9PamNh4uI9fmtai71Z0VKq_u4BDzPdL7xlpYE3jmGPFLjvKBjAHfmpjS_btK_kfki3nc6wHGHR0bYv_Ki_kPurIgS0iv5RJe-S_a3Tr4hvSOV_gTsYzWXbYYUP9j7ou3mo7ChxLp_Bxpuo0IjKgpR1Lmg18mCROUStjH0ko0HXcKUU0Fs82s-"/>
+<div class="w-10 h-10 rounded-full bg-indigo-600 border-2 border-slate-900 flex items-center justify-center text-[10px] font-bold text-white">
+                    +2k
+                </div>
+</div>
+<p class="font-body-md text-slate-300">Trusted by over <span class="text-indigo-400 font-bold">2,000+</span> modern merchants worldwide.</p>
+<button class="w-full bg-white text-slate-950 py-3 rounded-full font-label-md hover:bg-slate-200 transition-colors">
+                Join the Waitlist
+            </button>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-20 pb-safe px-2 bg-slate-950 border-t border-slate-800 shadow-[0_-4px_12px_rgba(0,0,0,0.2)] z-50">
+<a class="flex flex-col items-center justify-center text-indigo-300 bg-indigo-900/40 rounded-2xl px-3 py-1 transition-all duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="explore" style="font-variation-settings: 'FILL' 1;">explore</span>
+<span class="text-[11px] font-medium font-inter">Discover</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 px-3 py-1 transition-all duration-200 active:scale-90 hover:text-indigo-300" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span class="text-[11px] font-medium font-inter">Market</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 px-3 py-1 transition-all duration-200 active:scale-90 hover:text-indigo-300" href="#">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="text-[11px] font-medium font-inter">Chats</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 px-3 py-1 transition-all duration-200 active:scale-90 hover:text-indigo-300" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="text-[11px] font-medium font-inter">Account</span>
+</a>
+</nav>
+<!-- Floating Action Button (FAB) - Relevant for Landing Conversion -->
+<div class="fixed bottom-24 right-4 z-40">
+<button class="w-14 h-14 bg-secondary rounded-full flex items-center justify-center shadow-lg shadow-secondary/20 text-white active:scale-90 transition-transform">
+<span class="material-symbols-outlined" data-icon="support_agent">support_agent</span>
+</button>
+</div>
+</body></html>

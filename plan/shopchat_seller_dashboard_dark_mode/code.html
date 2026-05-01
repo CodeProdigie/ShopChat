@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#c3c0ff",
+                    "surface-container-highest": "#34343d",
+                    "on-tertiary-fixed": "#351000",
+                    "tertiary-fixed-dim": "#ffb694",
+                    "tertiary-fixed": "#ffdbcc",
+                    "tertiary": "#511c00",
+                    "surface-container-high": "#2a2a32",
+                    "on-tertiary-container": "#fe9562",
+                    "on-surface-variant": "#c8c4d5",
+                    "secondary-fixed": "#89f5e7",
+                    "inverse-surface": "#e4e1eb",
+                    "surface-container-lowest": "#0f0f14",
+                    "surface-tint": "#c3c0ff",
+                    "surface-variant": "#464553",
+                    "primary-fixed": "#e2dfff",
+                    "on-background": "#e4e1eb",
+                    "inverse-on-surface": "#1b1b22",
+                    "tertiary-container": "#752c00",
+                    "background": "#141318",
+                    "on-secondary-fixed-variant": "#005049",
+                    "surface-dim": "#1b1b22",
+                    "surface": "#1b1b22",
+                    "on-error": "#ffffff",
+                    "outline-variant": "#464553",
+                    "on-tertiary": "#ffffff",
+                    "surface-bright": "#3b3b44",
+                    "on-primary-fixed": "#0f0069",
+                    "on-primary": "#000063",
+                    "surface-container": "#1f1f26",
+                    "secondary": "#6bd8cb",
+                    "inverse-primary": "#1f108e",
+                    "on-secondary-container": "#86f2e4",
+                    "on-secondary-fixed": "#00201d",
+                    "secondary-fixed-dim": "#6bd8cb",
+                    "error-container": "#93000a",
+                    "on-tertiary-fixed-variant": "#7a3003",
+                    "on-primary-container": "#e2dfff",
+                    "primary-container": "#3b35a7",
+                    "primary": "#c3c0ff",
+                    "on-surface": "#e4e1eb",
+                    "error": "#ffb4ab",
+                    "secondary-container": "#005049",
+                    "on-background": "#e4e1eb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "base": "8px",
+                    "gutter": "24px",
+                    "lg": "40px",
+                    "md": "24px",
+                    "xs": "4px",
+                    "xl": "64px",
+                    "sm": "12px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "h3": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "h1": ["Inter"],
+                    "h2": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "h3": ["24px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "h1": ["40px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "h2": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "1", "fontWeight": "500"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-panel { background: rgba(31, 31, 38, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(70, 69, 83, 0.5); }
+    </style>
+</head>
+<body class="bg-background text-on-surface antialiased">
+<!-- SideNavBar -->
+<aside class="bg-surface-container h-screen w-64 border-r border-outline-variant fixed left-0 top-0 flex flex-col p-4 gap-2 h-full z-40">
+<div class="mb-8 px-4 py-2">
+<h1 class="text-lg font-bold text-primary">ShopChat Seller</h1>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Enterprise Tier</p>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container rounded-lg font-semibold cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg transition-all cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+<span class="font-label-md text-label-md">Messages</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg transition-all cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg transition-all cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg transition-all cursor-pointer active:opacity-80" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-label-md text-label-md">Settings</span>
+</a>
+</nav>
+<div class="mt-auto pt-4 border-t border-outline-variant flex flex-col gap-1">
+<button class="w-full bg-primary text-on-primary py-3 rounded-xl font-label-md mb-4 hover:opacity-90 transition-opacity">
+            New Product
+        </button>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg transition-all cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="help_center">help_center</span>
+<span class="font-label-md text-label-md">Support</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface rounded-lg transition-all cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-label-md text-label-md">Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 p-lg min-h-screen">
+<!-- Header Section -->
+<header class="flex justify-between items-end mb-xl">
+<div>
+<h1 class="font-h1 text-h1 text-on-surface mb-xs">Seller Dashboard</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">Welcome back. Here's what's happening with your store today.</p>
+</div>
+<div class="flex gap-md">
+<button class="flex items-center gap-2 bg-surface-container border border-outline-variant px-md py-sm rounded-lg font-label-md text-on-surface hover:bg-surface-container-high transition-colors shadow-sm active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="file_download">file_download</span>
+                View Reports
+            </button>
+<button class="flex items-center gap-2 bg-primary text-on-primary px-md py-sm rounded-lg font-label-md shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+                List New Product
+            </button>
+</div>
+</header>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Key Metric Cards -->
+<div class="col-span-12 md:col-span-4 bg-surface-container p-md rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-md">
+<div class="p-sm bg-primary-container/30 rounded-lg text-primary">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+</div>
+<span class="text-secondary font-label-sm flex items-center gap-1">+12.5% <span class="material-symbols-outlined !text-sm" data-icon="trending_up">trending_up</span></span>
+</div>
+<p class="font-label-md text-on-surface-variant mb-xs">Total Sales</p>
+<h2 class="font-h2 text-h2 text-on-surface">$42,890.00</h2>
+<div class="mt-md h-1 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full bg-primary w-3/4"></div>
+</div>
+</div>
+<div class="col-span-12 md:col-span-4 bg-surface-container p-md rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-md">
+<div class="p-sm bg-secondary-container/30 rounded-lg text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="forum">forum</span>
+</div>
+<span class="text-secondary font-label-sm flex items-center gap-1">+4 <span class="material-symbols-outlined !text-sm" data-icon="chat_bubble">chat_bubble</span></span>
+</div>
+<p class="font-label-md text-on-surface-variant mb-xs">Active Conversations</p>
+<h2 class="font-h2 text-h2 text-on-surface">24</h2>
+<p class="text-label-sm text-on-surface-variant mt-sm">Average response time: 3 mins</p>
+</div>
+<div class="col-span-12 md:col-span-4 bg-surface-container p-md rounded-xl border border-outline-variant shadow-sm hover:shadow-md transition-shadow">
+<div class="flex justify-between items-start mb-md">
+<div class="p-sm bg-tertiary-container/30 rounded-lg text-tertiary-fixed-dim">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+</div>
+<span class="text-on-surface-variant font-label-sm">8 Pending</span>
+</div>
+<p class="font-label-md text-on-surface-variant mb-xs">New Orders</p>
+<h2 class="font-h2 text-h2 text-on-surface">118</h2>
+<div class="flex -space-x-2 mt-md overflow-hidden">
+<img class="inline-block h-8 w-8 rounded-full ring-2 ring-surface-container" data-alt="Customer 1" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAd801ApxrcOtNc8BQkfw8XOP3gkphMFeGgpfhkYBcDl9dNIzoWHclaMMfNOlKaMoutixE2Vov7mp2_M5sAnkXDdToKlpwBOBr75HYiFZdDfZyi3er5wWUAxPN_u9DAzSits0oy8pKtPhfPK1zy3TRJGdW9riByo2JVrxgkvt9UixIp5wtKzTMLulcLaZtt3RxyqsfPHtblapPejrIg0D8hvxQzAwhA8Dd8EgWWPP_cEpRuT17xh-NQ7-wTS26BVAmsegJZh9YZNSw"/>
+<img class="inline-block h-8 w-8 rounded-full ring-2 ring-surface-container" data-alt="Customer 2" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcCVhYt8UjifAMyoTti9e53yIJtoi7PxtRRn0oomykfeZKc7G2_O9j3Tac0BPKpyYgEUVESSSZ94sKjEIIcYG9h1BtksryE4wSHlmXZ2eqVD71Uwnvns6DEabnh2VLwAd4o7LDT_a4_lX6cDr0HQdzafYy0wc9zZoJs0QH0DNvp0cwGa2ntbpyqWNwJIgTpNyf-wj02ZsY6a4r6vRoHCoWFoV7RDMiHq6c15Qg4pAdVU3UwwvcHlOg_I4IVQS9yH4kxtsz0HkGIzez"/>
+<div class="flex items-center justify-center h-8 w-8 rounded-full ring-2 ring-surface-container bg-surface-container-high text-[10px] font-bold text-on-surface-variant">+5</div>
+</div>
+</div>
+<!-- Conversations List & Main Actions Section -->
+<div class="col-span-12 lg:col-span-8 space-y-gutter">
+<div class="bg-surface-container rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+<div class="px-md py-md border-b border-outline-variant flex justify-between items-center">
+<h3 class="font-h3 text-h3">Active Conversations</h3>
+<button class="text-primary font-label-md hover:underline">View All</button>
+</div>
+<div class="divide-y divide-outline-variant/30">
+<!-- Chat Row 1 -->
+<div class="px-md py-md flex items-center justify-between hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="flex items-center gap-md">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all" data-alt="Alex Rivera" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSfAnjT4D4s0UIh-UnAx-YVA2Qu1hY2Fv31mXynYuVTsQAXpIj_EDGL0tGIL4611wr8AWkA7qAPHgTHuMkmjMKnpVG0Z90sEeIqqLgaNFBMJjqPZFQc-PHk6Y_nwS3NuPFakFDUuykEnn7f4TCff8Vr-OfpLiZFoX-NPvB8V4FFTzhKCe35TmgTm3hWIjCXflKU6ZRiav59-Mudco1TYYdJzZO8iShL9d7mStrXlfFJphqkMZos0CbJlhncllFK7Xy4sdAnB-zEzuF"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-secondary rounded-full border-2 border-surface-container"></div>
+</div>
+<div>
+<h4 class="font-label-md text-on-surface">Alex Rivera</h4>
+<p class="font-body-sm text-on-surface-variant line-clamp-1">"Is the premium model still available for bulk shipping?"</p>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<span class="px-sm py-1 bg-primary-container text-on-primary-container rounded-full text-[10px] font-bold uppercase tracking-wider">Unread</span>
+<span class="text-label-sm text-on-surface-variant">2m ago</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<!-- Chat Row 2 -->
+<div class="px-md py-md flex items-center justify-between hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="flex items-center gap-md">
+<div class="relative">
+<img class="w-12 h-12 rounded-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all" data-alt="Jordan Smith" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQ3au0--gmxkupG4S236eN75rCbwmetABYQ0JV3s8dcRru4EmNdwaaAsSRTL7gQUMJYABclxfaDKW8jYyLpjoOxfaR2xxDf9-WPiXzjRZbOM9Xc38nWiym-tu60VuaxUWsjRZ4NJuPijRDhYchspWzGdi2oWH1PfXPDASGv561qBqfAOHmxFz6oZyKafPSbq0QXbrgKhGUAcBdtWgmrQAePtnZ4rhkaN0uJouxVaviYUAIdiWr7Mc1EQZYfIQkfF9bjetaekD8dzdd"/>
+<div class="absolute bottom-0 right-0 w-3 h-3 bg-outline rounded-full border-2 border-surface-container"></div>
+</div>
+<div>
+<h4 class="font-label-md text-on-surface">Jordan Smith</h4>
+<p class="font-body-sm text-on-surface-variant line-clamp-1">"Payment sent! Please confirm receipt of funds."</p>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<span class="px-sm py-1 bg-tertiary-container text-on-tertiary-container rounded-full text-[10px] font-bold uppercase tracking-wider">Waiting for Payment</span>
+<span class="text-label-sm text-on-surface-variant">1h ago</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+<!-- Chat Row 3 -->
+<div class="px-md py-md flex items-center justify-between hover:bg-surface-container-high transition-colors cursor-pointer group">
+<div class="flex items-center gap-md">
+<div class="relative">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+</div>
+</div>
+<div>
+<h4 class="font-label-md text-on-surface">Anonymous User #882</h4>
+<p class="font-body-sm text-on-surface-variant line-clamp-1">"Can you provide more details on the return policy?"</p>
+</div>
+</div>
+<div class="flex items-center gap-md">
+<span class="px-sm py-1 bg-surface-container-highest text-on-surface-variant rounded-full text-[10px] font-bold uppercase tracking-wider">Processing</span>
+<span class="text-label-sm text-on-surface-variant">3h ago</span>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors" data-icon="chevron_right">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Sidebar Content: Quick Analytics & Recent Activities -->
+<div class="col-span-12 lg:col-span-4 space-y-gutter">
+<div class="bg-primary-container text-on-primary-container rounded-xl p-md shadow-lg relative overflow-hidden">
+<div class="relative z-10">
+<h4 class="font-h3 text-h3 mb-xs text-white">Growth Insights</h4>
+<p class="font-body-sm opacity-90 mb-md text-white/80">Your sales are 15% higher than last month. Ready to scale?</p>
+<button class="bg-white text-primary-container px-md py-2 rounded-lg font-label-md hover:bg-surface-bright transition-colors">
+                        Upgrade Tier
+                    </button>
+</div>
+<div class="absolute -bottom-4 -right-4 w-32 h-32 bg-primary/20 rounded-full blur-2xl"></div>
+<div class="absolute -top-4 -left-4 w-24 h-24 bg-secondary/10 rounded-full blur-3xl"></div>
+</div>
+<div class="bg-surface-container rounded-xl border border-outline-variant shadow-sm p-md">
+<h3 class="font-label-md text-on-surface mb-md flex items-center gap-2">
+<span class="material-symbols-outlined !text-sm text-primary" data-icon="bolt">bolt</span>
+                    Quick Actions
+                </h3>
+<div class="grid grid-cols-2 gap-sm">
+<button class="p-md bg-surface-container-high rounded-xl flex flex-col items-center gap-2 hover:bg-primary-container/20 transition-colors border border-transparent hover:border-primary/20 group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary" data-icon="inventory">inventory</span>
+<span class="text-[11px] font-bold text-on-surface-variant group-hover:text-on-surface">Stock Count</span>
+</button>
+<button class="p-md bg-surface-container-high rounded-xl flex flex-col items-center gap-2 hover:bg-primary-container/20 transition-colors border border-transparent hover:border-primary/20 group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary" data-icon="campaign">campaign</span>
+<span class="text-[11px] font-bold text-on-surface-variant group-hover:text-on-surface">Run Promo</span>
+</button>
+<button class="p-md bg-surface-container-high rounded-xl flex flex-col items-center gap-2 hover:bg-primary-container/20 transition-colors border border-transparent hover:border-primary/20 group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary" data-icon="support_agent">support_agent</span>
+<span class="text-[11px] font-bold text-on-surface-variant group-hover:text-on-surface">Quick Reply</span>
+</button>
+<button class="p-md bg-surface-container-high rounded-xl flex flex-col items-center gap-2 hover:bg-primary-container/20 transition-colors border border-transparent hover:border-primary/20 group">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary" data-icon="settings_suggest">settings_suggest</span>
+<span class="text-[11px] font-bold text-on-surface-variant group-hover:text-on-surface">Store Settings</span>
+</button>
+</div>
+</div>
+<div class="bg-surface-container rounded-xl border border-outline-variant shadow-sm p-md">
+<h3 class="font-label-md text-on-surface mb-md">Store Performance</h3>
+<div class="space-y-md">
+<div class="flex justify-between items-center">
+<span class="text-label-sm text-on-surface-variant">Order Fulfillment</span>
+<span class="text-label-sm font-bold text-secondary">98%</span>
+</div>
+<div class="h-2 w-full bg-surface-container-high rounded-full">
+<div class="h-full bg-secondary w-[98%] rounded-full"></div>
+</div>
+<div class="flex justify-between items-center mt-md">
+<span class="text-label-sm text-on-surface-variant">Customer Satisfaction</span>
+<span class="text-label-sm font-bold text-primary">4.9/5.0</span>
+</div>
+<div class="h-2 w-full bg-surface-container-high rounded-full">
+<div class="h-full bg-primary w-[94%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer -->
+<footer class="mt-xl py-12 px-10 border-t border-outline-variant grid grid-cols-1 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
+<div class="col-span-1">
+<span class="font-bold text-on-surface mb-4 block">ShopChat Inc.</span>
+<p class="text-xs text-on-surface-variant">Empowering conversational commerce for modern brands.</p>
+</div>
+<div class="flex flex-col gap-2">
+<h5 class="font-label-md text-on-surface mb-2">Platform</h5>
+<a class="text-xs text-on-surface-variant hover:text-primary transition-colors underline underline-offset-4" href="#">Marketplace</a>
+<a class="text-xs text-on-surface-variant hover:text-primary transition-colors underline underline-offset-4" href="#">Seller Tools</a>
+<a class="text-xs text-on-surface-variant hover:text-primary transition-colors underline underline-offset-4" href="#">API Documentation</a>
+</div>
+<div class="flex flex-col gap-2">
+<h5 class="font-label-md text-on-surface mb-2">Company</h5>
+<a class="text-xs text-on-surface-variant hover:text-primary transition-colors underline underline-offset-4" href="#">Privacy Policy</a>
+<a class="text-xs text-on-surface-variant hover:text-primary transition-colors underline underline-offset-4" href="#">Terms of Service</a>
+<a class="text-xs text-on-surface-variant hover:text-primary transition-colors underline underline-offset-4" href="#">Contact Us</a>
+</div>
+<div class="col-span-1">
+<p class="text-xs text-on-surface-variant mb-2">© 2024 ShopChat Inc. All rights reserved.</p>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary" data-icon="public">public</span>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary" data-icon="chat">chat</span>
+<span class="material-symbols-outlined text-outline cursor-pointer hover:text-primary" data-icon="alternate_email">alternate_email</span>
+</div>
+</div>
+</footer>
+</main>
+</body></html>
