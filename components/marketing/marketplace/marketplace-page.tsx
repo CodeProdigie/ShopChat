@@ -2,7 +2,6 @@ import Link from "next/link";
 import {
   Bell,
   Camera,
-  Chair,
   Headphones,
   Home,
   Lamp,
@@ -21,6 +20,7 @@ import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 const products = [
   {
+    slug: "tactile-pro-keyboard",
     title: "Tactile Pro Keyboard",
     price: "$189",
     description: "Premium mechanical switches with customizable RGB and aluminum chassis.",
@@ -30,6 +30,7 @@ const products = [
       "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
   },
   {
+    slug: "sonic-studio-over-ear",
     title: "Sonic Studio Over-Ear",
     price: "$299",
     description: "Active noise cancellation with 40-hour battery life and spatial audio support.",
@@ -66,6 +67,7 @@ const products = [
       "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
   },
   {
+    slug: "profocus-50mm-prime",
     title: "ProFocus 50mm Prime",
     price: "$1,299",
     description: "Ultra-fast aperture f/1.2 lens for stunning bokeh and low-light photography.",
@@ -137,8 +139,8 @@ export function MarketplacePage() {
           <ThemeToggle />
           <img
             alt="User Profile"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqlKNxciJ9tqU08vfo0vW7OTxThbLF3FloqNNCzwy-Gpq9dZURmTDOkoyKKtZfn6O08MIt0Gbm0kTdcyiBGSfPkA54lpjycGK85cU2jyRyqRaDYcsK4SmKzjlRiTHom-fCz43d2wyBw_ihjhJd5MOYy-5RoxOkrcSW71R860j1l0bi7yoMf04lymiow1C2H_cuhj-p0iTEU6whqD8eLfYqanGXPPaUZZ4qyNokVw9aYdKwwGzFGv__RT81E6P-Z7MJbnXAeBh5gPr4"
-            className="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-800"
+            src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=crop&w=200&q=80"
+            className="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-800 object-cover"
           />
         </div>
       </header>
@@ -179,8 +181,8 @@ export function MarketplacePage() {
           </div>
         </aside>
 
-        <main className="flex-1 lg:ml-64 min-h-screen px-4 py-6 md:px-8 md:py-8 pb-[6.5rem]">
-          <section className="max-w-[1280px] mx-auto mb-10">
+        <main className="flex-1 lg:ml-64 min-h-screen px-4 py-6 md:px-8 md:py-8 pb-26">
+          <section className="max-w-7xl mx-auto mb-10">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
               <div>
                 <h1 className="text-5xl font-bold tracking-tight text-foreground">Marketplace</h1>
@@ -210,7 +212,7 @@ export function MarketplacePage() {
               {products.map((product) => (
                 <article
                   key={product.title}
-                  className="group bg-white dark:bg-slate-950 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl transition-transform duration-300 hover:-translate-y-1"
+                  className="group bg-surface dark:bg-slate-950 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl transition-transform duration-300 hover:-translate-y-1"
                 >
                   <div className="relative h-64 overflow-hidden">
                     <img
@@ -236,13 +238,13 @@ export function MarketplacePage() {
                         <span className="inline-flex h-6 w-6 rounded-full bg-slate-100 dark:bg-slate-900" />
                         <span className="text-sm font-semibold text-slate-600 dark:text-slate-300">{product.seller}</span>
                       </div>
-                      <button
-                        type="button"
+                      <Link
+                        href={`/product/${product.slug}`}
                         className="flex items-center gap-2 border border-secondary text-secondary font-semibold py-2 px-4 rounded-xl hover:bg-secondary/10 transition-colors"
                       >
                         <MessageSquare className="h-4 w-4" />
                         Ask Seller
-                      </button>
+                      </Link>
                     </div>
                   </div>
                 </article>
@@ -270,7 +272,7 @@ export function MarketplacePage() {
         })}
       </nav>
 
-      <footer className="w-full py-8 px-6 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-slate-100 dark:border-slate-900 bg-white dark:bg-slate-950 lg:ml-64 lg:w-[calc(100%-16rem)]">
+      <footer className="w-full py-8 px-6 flex flex-col md:flex-row justify-between items-center gap-4 border-t border-slate-100 dark:border-slate-900 bg-surface dark:bg-slate-950 lg:ml-64 lg:w-[calc(100%-16rem)]">
         <div className="flex flex-col md:flex-row items-center gap-6">
           <span className="font-bold text-indigo-700 dark:text-indigo-300">ShopChat</span>
           <p className="text-xs text-slate-500 dark:text-slate-400">© 2024 ShopChat Technologies Inc.</p>

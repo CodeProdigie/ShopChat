@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import type { ComponentType, SVGProps } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -92,7 +93,16 @@ const processSteps = [
   "Order updates show up as system messages until delivery.",
 ];
 
-const featureCards = [
+type FeatureTone = "primary" | "secondary" | "accent";
+
+type FeatureCard = {
+  title: string;
+  description: string;
+  icon: ComponentType<SVGProps<SVGSVGElement>>;
+  tone: FeatureTone;
+};
+
+const featureCards: FeatureCard[] = [
   {
     title: "Browse",
     description:
