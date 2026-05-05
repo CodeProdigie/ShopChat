@@ -152,14 +152,14 @@ export function ProductDetailPage() {
                     alt="Seller avatar"
                     className="h-full w-full object-cover"
                   />
-                </div>
+                </div> 
                 <div>
                   <p className="font-semibold">TechTime Official</p>
                   <p className="text-sm text-muted-foreground">Top Rated Merchant • 4.2k Sales</p>
                 </div>
-                <button className="ml-auto rounded-2xl border border-indigo-700 px-4 py-2 text-sm font-semibold text-indigo-700 hover:bg-indigo-50 transition-colors">
+                <Link href="/store/techtime-official" className="ml-auto rounded-2xl border border-indigo-700 px-4 py-2 text-sm font-semibold text-indigo-700 hover:bg-indigo-50 dark:hover:bg-indigo-950 transition-colors">
                   View Store
-                </button>
+                </Link>
               </div>
             </div>
 
@@ -189,10 +189,10 @@ export function ProductDetailPage() {
           <button className="inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-secondary-container text-on-secondary-container shadow-sm transition-transform hover:-translate-y-0.5 active:scale-95">
             <ShoppingCart className="h-6 w-6" />
           </button>
-          <button className="flex-1 rounded-3xl bg-primary px-4 py-4 text-base font-semibold text-white shadow-lg transition-transform hover:-translate-y-0.5 active:scale-95">
+          <Link href="/chat" className="flex-1 rounded-3xl bg-primary px-4 py-4 text-base font-semibold text-white shadow-lg transition-transform hover:-translate-y-0.5 active:scale-95 flex items-center justify-center">
             <MessageSquare className="mr-2 h-5 w-5 inline" />
             Ask Seller about this Item
-          </button>
+          </Link>
         </div>
       </div>
     </div>
