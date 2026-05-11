@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
+import { io, type Socket } from "socket.io-client";
 import {
   ArrowLeft,
   Home,
@@ -15,33 +16,7 @@ import {
   X,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
-
-const messages = [
-  {
-    id: "m1",
-    sender: "buyer",
-    text: "Hi Alex! I saw the weekender bag. Is it still available for immediate shipping? I need it for a trip this weekend.",
-    time: "10:24 AM",
-  },
-  {
-    id: "m2",
-    sender: "seller",
-    text: "Hello! Yes, it's available. If you order within the next hour, I can have it shipped by noon today. It usually arrives in 2 days.",
-    time: "10:26 AM",
-  },
-  {
-    id: "m3",
-    sender: "buyer",
-    text: "Perfect! I just saw the order card. One quick question: is the leather water-resistant?",
-    time: "10:28 AM",
-  },
-  {
-    id: "m4",
-    sender: "seller",
-    text: "It’s top-grain leather with a protective wax coating. It handles light rain perfectly, though I wouldn't soak it!",
-    time: "10:30 AM",
-  },
-];
+import type { ChatMessage, Conversation, Product } from "@/lib/shopchat-data";
 
 const quickReplies = [
   "Sounds good!",
@@ -56,8 +31,75 @@ const navItems = [
   { href: "#", label: "Account", icon: User },
 ];
 
-export function ChatPage() {
+function formatTime(value: string) {
+  return new Intl.DateTimeFormat("en", {
+    hour: "numeric",
+    minute: "2-digit",
+  }).format(new Date(value));
+}
+
+export function ChatPage({
+  conversation,
+  initialMessages,
+  product,
+}: {
+  conversation: Conversation;
+  initialMessages: ChatMessage[];
+  product: Product;
+}) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [messages, setMessages] = useState(initialMessages);
+  const [draft, setDraft] = useState("");
+  const socket = useMemo<Socket | null>(() => {
+    if (typeof window === "undefined") {
+      return null;
+    }
+
+    return io({ path: "/api/socket", autoConnect: false });
+  }, []);
+
+  useEffect(() => {
+    if (!socket) {
+      return;
+    }
+
+    socket.connect();
+    socket.emit("conversation:join", conversation.id);
+    socket.on("message:new", (message: ChatMessage) => {
+      setMessages((current) =>
+        current.some((item) => item.id === message.id) ? current : [...current, message],
+      );
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, [conversation.id, socket]);
+
+  async function sendMessage(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const text = draft.trim();
+
+    if (!text) {
+      return;
+    }
+
+    setDraft("");
+    const response = await fetch(`/api/conversations/${conversation.id}/messages`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text, senderRole: "buyer" }),
+    });
+
+    if (!response.ok) {
+      setDraft(text);
+      return;
+    }
+
+    const { message } = (await response.json()) as { message: ChatMessage };
+    setMessages((current) => [...current, message]);
+    socket?.emit("message:send", { conversationId: conversation.id, message });
+  }
 
   return (
     <div className="min-h-screen bg-linear-to-b from-slate-100 via-slate-50 to-white text-foreground dark:bg-linear-to-b dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 dark:text-slate-100">
@@ -73,15 +115,15 @@ export function ChatPage() {
             <div className="flex items-center gap-3">
               <div className="relative">
                 <img
-                  src="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&w=200&q=80"
-                  alt="Seller avatar"
+                  src={product.image}
+                  alt={product.seller}
                   className="h-12 w-12 rounded-3xl object-cover border-2 border-primary-container"
                 />
                 <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-secondary border-2 border-white" />
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-semibold text-foreground">Alex Rivera</span>
-                <span className="text-xs uppercase tracking-[0.24em] text-slate-500">Vintage Leather Weekender</span>
+                <span className="text-sm font-semibold text-foreground">{product.seller}</span>
+                <span className="text-xs uppercase tracking-[0.24em] text-slate-500">{product.title}</span>
               </div>
             </div>
           </div>
@@ -113,43 +155,50 @@ export function ChatPage() {
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`flex ${message.sender === "buyer" ? "justify-end" : "justify-start"}`}
+                className={`flex ${message.senderRole === "buyer" ? "justify-end" : "justify-start"}`}
               >
                 <div
                   className={`max-w-[85%] px-4 py-3 text-sm leading-7 ${
-                    message.sender === "buyer"
+                    message.senderRole === "buyer"
                       ? "bg-indigo-600 text-white rounded-3xl rounded-tr-none shadow-lg shadow-indigo-500/10"
-                      : "bg-slate-50 border border-slate-200 rounded-3xl rounded-tl-none shadow-sm dark:bg-slate-900 dark:border-slate-800 dark:text-slate-100"
+                      : message.senderRole === "system"
+                        ? "bg-secondary/10 border border-secondary/20 text-secondary rounded-3xl shadow-sm"
+                        : "bg-slate-50 border border-slate-200 rounded-3xl rounded-tl-none shadow-sm dark:bg-slate-900 dark:border-slate-800 dark:text-slate-100"
                   }`}
                 >
                   <p>{message.text}</p>
                 </div>
-                <span className="mt-1 ml-2 text-[10px] text-slate-400">{message.time}</span>
+                <span className="mt-1 ml-2 text-[10px] text-slate-400">{formatTime(message.createdAt)}</span>
               </div>
             ))}
 
             <div className="rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden dark:border-slate-800 dark:bg-slate-900">
               <div className="flex gap-4 p-4">
                 <img
-                  src="https://images.unsplash.com/photo-1512594126632-6facb7b08324?auto=format&fit=crop&w=200&q=80"
-                  alt="Vintage leather weekender bag"
+                  src={product.image}
+                  alt={product.title}
                   className="h-20 w-20 rounded-3xl object-cover bg-slate-100 dark:bg-slate-800"
                 />
                 <div className="flex-1">
                   <div className="flex items-start justify-between gap-3">
-                    <span className="text-[10px] uppercase tracking-[0.24em] text-indigo-700 font-semibold">Order #1234</span>
+                    <span className="text-[10px] uppercase tracking-[0.24em] text-indigo-700 font-semibold">
+                      Order {conversation.orderId || "#Draft"}
+                    </span>
                     <span className="rounded-full bg-indigo-50 px-2 py-1 text-[10px] font-semibold text-indigo-700">
                       Pending Payment
                     </span>
                   </div>
-                  <h2 className="mt-2 text-lg font-semibold text-slate-900">Vintage Leather Weekender</h2>
-                  <p className="mt-1 text-sm font-bold text-indigo-700">$249.00</p>
+                  <h2 className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">{product.title}</h2>
+                  <p className="mt-1 text-sm font-bold text-indigo-700">{product.priceLabel}.00</p>
                 </div>
               </div>
               <div className="bg-slate-100 p-3 flex gap-2 dark:bg-slate-900/80">
-                <button className="flex-1 rounded-3xl bg-indigo-700 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition-transform hover:-translate-y-0.5 active:scale-95">
+                <Link
+                  href={`/payment-success?conversation=${conversation.id}`}
+                  className="flex-1 rounded-3xl bg-indigo-700 px-4 py-3 text-center text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition-transform hover:-translate-y-0.5 active:scale-95"
+                >
                   Buy Now
-                </button>
+                </Link>
                 <button className="inline-flex h-12 w-12 items-center justify-center rounded-3xl border border-slate-200 text-slate-600 hover:bg-slate-100 transition dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800">
                   <Info className="h-5 w-5" />
                 </button>
@@ -163,6 +212,7 @@ export function ChatPage() {
                   <button
                     key={reply}
                     type="button"
+                    onClick={() => setDraft(reply)}
                     className="whitespace-nowrap rounded-full border border-secondary text-secondary bg-white px-4 py-2 text-xs font-semibold hover:bg-secondary/10 transition dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
                   >
                     {reply}
@@ -175,21 +225,23 @@ export function ChatPage() {
 
         <div className="fixed inset-x-0 bottom-0 z-40 bg-white/95 dark:bg-slate-950/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800 px-4 py-4 shadow-[0_-24px_48px_-32px_rgba(15,23,42,0.12)]">
           <div className="mx-auto max-w-3xl">
-            <div className="flex items-end gap-3">
+            <form onSubmit={sendMessage} className="flex items-end gap-3">
               <button className="inline-flex h-12 w-12 items-center justify-center rounded-3xl border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:border-slate-300 hover:text-indigo-700 active:scale-95 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-800 dark:hover:border-slate-700">
                 <Smile className="h-5 w-5" />
               </button>
               <div className="flex-1 rounded-3xl border border-slate-200 bg-slate-50 px-3 py-3 shadow-sm focus-within:border-indigo-300 transition-all dark:border-slate-800 dark:bg-slate-900">
                 <textarea
+                  value={draft}
+                  onChange={(event) => setDraft(event.target.value)}
                   className="w-full resize-none bg-transparent border-0 text-sm leading-6 text-slate-900 placeholder:text-slate-500 focus:ring-0 dark:text-slate-100 dark:placeholder:text-slate-400"
                   placeholder="Type a message..."
                   rows={1}
                 />
               </div>
-              <button className="inline-flex h-12 w-12 items-center justify-center rounded-3xl bg-indigo-700 text-white shadow-lg transition-transform hover:-translate-y-0.5 active:scale-95">
+              <button type="submit" className="inline-flex h-12 w-12 items-center justify-center rounded-3xl bg-indigo-700 text-white shadow-lg transition-transform hover:-translate-y-0.5 active:scale-95">
                 <Send className="h-5 w-5" />
               </button>
-            </div>
+            </form>
           </div>
         </div>
       </div>
@@ -241,7 +293,7 @@ export function ChatPage() {
         <div className="mt-8 rounded-4xl bg-slate-50 p-5 text-sm text-slate-600 shadow-sm dark:bg-slate-900 dark:text-slate-300">
           <p className="font-semibold text-slate-900 dark:text-white">Live order support</p>
           <p className="mt-2 leading-6">
-            This chat is connected to your seller, with fast shipping updates and quick order replies.
+            This chat is connected to your seller with Socket.IO-powered live delivery for new messages.
           </p>
         </div>
       </aside>

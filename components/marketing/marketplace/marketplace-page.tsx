@@ -1,10 +1,7 @@
 import Link from "next/link";
 import {
   Bell,
-  Camera,
-  Headphones,
   Home,
-  Lamp,
   MessageSquare,
   Search,
   Settings2,
@@ -14,69 +11,9 @@ import {
   Tag,
   User,
   Wallet,
-  Watch,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
-
-const products = [
-  {
-    slug: "tactile-pro-keyboard",
-    title: "Tactile Pro Keyboard",
-    price: "$189",
-    description: "Premium mechanical switches with customizable RGB and aluminum chassis.",
-    seller: "KeyMods Co.",
-    badge: "New Arrival",
-    image:
-      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    slug: "sonic-studio-over-ear",
-    title: "Sonic Studio Over-Ear",
-    price: "$299",
-    description: "Active noise cancellation with 40-hour battery life and spatial audio support.",
-    seller: "AudioHaus",
-    badge: null,
-    image:
-      "https://images.unsplash.com/photo-1519677100203-a0e668c92439?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    title: "Arc Minimalist Lamp",
-    price: "$125",
-    description: "Adjustable brightness with touch-sensitive controls and sleek matte finish.",
-    seller: "Lume Design",
-    badge: null,
-    image:
-      "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    title: "Nova Smart Watch",
-    price: "$450",
-    description: "Next-gen health tracking and seamless integration with the ShopChat ecosystem.",
-    seller: "NovaTech",
-    badge: null,
-    image:
-      "https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    title: "Nexus Ergonomic Chair",
-    price: "$520",
-    description: "Full lumbar support and breathable mesh for peak performance during long hours.",
-    seller: "WorkFlow Studio",
-    badge: "Low Stock",
-    image:
-      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    slug: "profocus-50mm-prime",
-    title: "ProFocus 50mm Prime",
-    price: "$1,299",
-    description: "Ultra-fast aperture f/1.2 lens for stunning bokeh and low-light photography.",
-    seller: "LensCraft",
-    badge: null,
-    image:
-      "https://images.unsplash.com/photo-1495433324511-bf8e92934d90?auto=format&fit=crop&w=1200&q=80",
-  },
-];
+import type { Product } from "@/lib/shopchat-data";
 
 const sideNavItems = [
   { label: "Dashboard", icon: Home },
@@ -99,7 +36,7 @@ const filters = [
   { label: "Seller Rating", icon: Star },
 ];
 
-export function MarketplacePage() {
+export function MarketplacePage({ products }: { products: Product[] }) {
   return (
     <div className="min-h-screen bg-surface-soft text-foreground">
       <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-3 w-full bg-white/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm">
@@ -230,7 +167,7 @@ export function MarketplacePage() {
                   <div className="p-6">
                     <div className="flex justify-between items-start gap-4 mb-2">
                       <h2 className="text-xl font-semibold text-foreground">{product.title}</h2>
-                      <span className="text-xl font-bold text-indigo-700">{product.price}</span>
+                      <span className="text-xl font-bold text-indigo-700">{product.priceLabel}</span>
                     </div>
                     <p className="text-sm text-slate-600 dark:text-slate-400 mb-6">{product.description}</p>
                     <div className="flex items-center justify-between gap-4">

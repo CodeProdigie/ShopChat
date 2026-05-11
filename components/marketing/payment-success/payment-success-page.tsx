@@ -1,11 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import {
-  ArrowLeft,
   CheckCircle,
-  Home,
   MessageSquare,
   Receipt,
   ShoppingBag,
@@ -13,6 +10,7 @@ import {
   User,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
+import type { Order, Product } from "@/lib/shopchat-data";
 
 const navItems = [
   { label: "Chat", icon: MessageSquare },
@@ -21,7 +19,7 @@ const navItems = [
   { label: "Profile", icon: User },
 ];
 
-export function PaymentSuccessPage() {
+export function PaymentSuccessPage({ order, product }: { order: Order; product: Product }) {
   return (
     <div className="min-h-screen bg-background text-foreground dark:bg-slate-950 dark:text-slate-100 flex flex-col">
       {/* Header */}
@@ -82,7 +80,7 @@ export function PaymentSuccessPage() {
               <p className="text-sm text-slate-600 dark:text-slate-400 mt-2">
                 Order Number:{" "}
                 <span className="font-semibold text-foreground">
-                  #ORD-7721
+                  #{order.id}
                 </span>
               </p>
             </div>
@@ -94,16 +92,16 @@ export function PaymentSuccessPage() {
               <div className="h-20 w-20 rounded-lg overflow-hidden bg-surface-container-low shrink-0 dark:bg-slate-800">
                 <img
                   className="h-full w-full object-cover"
-                  alt="Elite Series Pro Watch"
-                  src="https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&w=200&q=80"
+                  alt={product.title}
+                  src={product.image}
                 />
               </div>
               <div className="grow">
                 <h3 className="text-lg font-semibold">
-                  Elite Series Pro Watch
+                  {product.title}
                 </h3>
                 <p className="text-sm text-slate-600 dark:text-slate-400">
-                  Merchant: Premium Tech Hub
+                  Merchant: {product.seller}
                 </p>
               </div>
             </div>
@@ -113,7 +111,7 @@ export function PaymentSuccessPage() {
                 <span className="text-sm text-slate-600 dark:text-slate-400">
                   Subtotal
                 </span>
-                <span className="text-sm text-foreground">$385.00</span>
+                <span className="text-sm text-foreground">${(order.total - 14).toFixed(2)}</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-slate-600 dark:text-slate-400">
@@ -126,7 +124,7 @@ export function PaymentSuccessPage() {
                   Total Amount
                 </span>
                 <span className="text-2xl font-bold text-primary">
-                  $399.00
+                  ${order.total.toFixed(2)}
                 </span>
               </div>
             </div>
@@ -141,10 +139,10 @@ export function PaymentSuccessPage() {
               <MessageSquare className="h-5 w-5" />
               Back to Conversation
             </Link>
-            <button className="w-full h-12 flex items-center justify-center gap-2 font-semibold text-secondary border border-secondary/20 dark:border-secondary/40 rounded-2xl hover:bg-secondary-container/20 dark:hover:bg-secondary-container/10 transition-colors active:scale-95">
+            <Link href={`/receipt/${order.id}`} className="w-full h-12 flex items-center justify-center gap-2 font-semibold text-secondary border border-secondary/20 dark:border-secondary/40 rounded-2xl hover:bg-secondary-container/20 dark:hover:bg-secondary-container/10 transition-colors active:scale-95">
               <Receipt className="h-5 w-5" />
               View Receipt
-            </button>
+            </Link>
           </div>
 
           {/* Success Chips */}

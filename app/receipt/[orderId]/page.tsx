@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, Receipt, ShoppingCart, MessageSquare } from "lucide-react";
+import { Receipt, ShoppingCart, MessageSquare } from "lucide-react";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 export default function ReceiptPage({ params }: { params: { orderId: string } }) {

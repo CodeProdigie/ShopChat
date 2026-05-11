@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import type { SVGProps } from "react";
 import {
   BarChart3,
   Menu,
@@ -170,7 +170,7 @@ export function SellerDashboardPage() {
           <div>
             <h1 className="text-4xl font-bold tracking-tight">Seller Dashboard</h1>
             <p className="text-slate-600 dark:text-slate-400 mt-2">
-              Welcome back. Here's what's happening with your store today.
+              Welcome back. Here&apos;s what&apos;s happening with your store today.
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
@@ -379,7 +379,7 @@ export function SellerDashboardPage() {
   );
 }
 
-function ChevronRight(props: any) {
+function ChevronRight(props: SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}

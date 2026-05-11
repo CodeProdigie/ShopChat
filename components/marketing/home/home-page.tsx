@@ -19,6 +19,8 @@ import {
   Store,
   X,
 } from "lucide-react";
+import { Show, UserButton } from "@clerk/nextjs";
+import { AuthModal } from "@/components/auth/auth-modal";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 const brandLogos = [
@@ -195,7 +197,9 @@ const navItems = [
   { href: "#reviews", label: "Reviews" },
 ];
 
-function HomeHeader() {
+type AuthMode = "sign-in" | "sign-up";
+
+function HomeHeader({ openAuth }: { openAuth: (mode: AuthMode) => void }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -232,18 +236,25 @@ function HomeHeader() {
           </button>
 
           <ThemeToggle />
-          <a
-            href="#hero"
-            className="hidden rounded-xl px-4 py-2 text-sm font-semibold text-muted-foreground hover:bg-surface-soft hover:text-foreground sm:inline-flex"
-          >
-            Login
-          </a>
-          <a
-            href="#pricing"
-            className="hidden rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white glow-shadow hover:-translate-y-0.5 sm:inline-flex"
-          >
-            Get Started
-          </a>
+          <Show when="signed-out">
+            <button
+              type="button"
+              onClick={() => openAuth("sign-in")}
+              className="hidden rounded-xl px-4 py-2 text-sm font-semibold text-muted-foreground hover:bg-surface-soft hover:text-foreground sm:inline-flex"
+            >
+              Login
+            </button>
+            <button
+              type="button"
+              onClick={() => openAuth("sign-up")}
+              className="hidden rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white glow-shadow hover:-translate-y-0.5 sm:inline-flex"
+            >
+              Get Started
+            </button>
+          </Show>
+          <Show when="signed-in">
+            <UserButton />
+          </Show>
         </div>
       </div>
 
@@ -276,20 +287,26 @@ function HomeHeader() {
             ))}
           </nav>
           <div className="grid gap-3 sm:grid-cols-2">
-            <a
-              href="#hero"
+            <button
+              type="button"
+              onClick={() => {
+                setMenuOpen(false);
+                openAuth("sign-in");
+              }}
               className="rounded-2xl border border-line bg-surface px-4 py-3 text-center text-sm font-semibold text-muted-foreground transition hover:bg-surface-soft hover:text-foreground"
-              onClick={() => setMenuOpen(false)}
             >
               Login
-            </a>
-            <a
-              href="#pricing"
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setMenuOpen(false);
+                openAuth("sign-up");
+              }}
               className="rounded-2xl bg-primary px-4 py-3 text-center text-sm font-semibold text-white transition hover:-translate-y-0.5"
-              onClick={() => setMenuOpen(false)}
             >
               Get Started
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -297,7 +314,7 @@ function HomeHeader() {
   );
 }
 
-function HeroSection() {
+function HeroSection({ openAuth }: { openAuth: (mode: AuthMode) => void }) {
   return (
     <section
       id="hero"
@@ -317,12 +334,13 @@ function HeroSection() {
           </p>
 
           <div className="flex flex-col gap-4 sm:flex-row">
-            <a
-              href="#pricing"
+            <button
+              type="button"
+              onClick={() => openAuth("sign-up")}
               className="inline-flex items-center justify-center rounded-2xl bg-primary px-7 py-4 text-base font-semibold text-white glow-shadow hover:-translate-y-0.5"
             >
               Start Selling Free
-            </a>
+            </button>
             <a
               href="#features"
               className="inline-flex items-center justify-center gap-2 rounded-2xl border border-secondary/40 bg-surface px-7 py-4 text-base font-semibold text-secondary hover:bg-secondary-soft/30"
@@ -704,7 +722,7 @@ function FeatureStatsSection() {
   );
 }
 
-function PricingSection() {
+function PricingSection({ openAuth }: { openAuth: (mode: AuthMode) => void }) {
   return (
     <section
       id="pricing"
@@ -755,8 +773,9 @@ function PricingSection() {
               ))}
             </ul>
 
-            <a
-              href="#hero"
+            <button
+              type="button"
+              onClick={() => openAuth("sign-up")}
               className={`mt-10 inline-flex w-full items-center justify-center rounded-xl px-6 py-4 text-sm font-semibold ${
                 plan.featured
                   ? "bg-primary text-white glow-shadow"
@@ -764,7 +783,7 @@ function PricingSection() {
               }`}
             >
               {plan.cta}
-            </a>
+            </button>
           </article>
         ))}
       </div>
@@ -836,19 +855,32 @@ function Footer() {
 }
 
 export function HomePage() {
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<AuthMode>("sign-in");
+  const openAuth = (mode: AuthMode) => {
+    setAuthMode(mode);
+    setAuthOpen(true);
+  };
+
   return (
     <div className="page-shell min-h-screen">
-      <HomeHeader />
+      <HomeHeader openAuth={openAuth} />
       <main>
-        <HeroSection />
+        <HeroSection openAuth={openAuth} />
         <BrandStripSection />
         <FeaturesSection />
         <ProcessSection />
         <TestimonialsSection />
         <FeatureStatsSection />
-        <PricingSection />
+        <PricingSection openAuth={openAuth} />
       </main>
       <Footer />
+      <AuthModal
+        mode={authMode}
+        open={authOpen}
+        onClose={() => setAuthOpen(false)}
+        onModeChange={setAuthMode}
+      />
     </div>
   );
 }

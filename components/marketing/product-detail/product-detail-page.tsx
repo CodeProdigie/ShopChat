@@ -5,27 +5,12 @@ import {
   Droplet,
   Heart,
   MessageSquare,
-  Search,
   Share2,
   ShoppingCart,
   Star,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
-
-const heroImages = [
-  {
-    src: "https://images.unsplash.com/photo-1516574187841-cb9cc2ca948b?auto=format&fit=crop&w=1200&q=80",
-    alt: "Elite Series Pro Watch front view",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1512850189-8a6a1e0cc9c5?auto=format&fit=crop&w=1200&q=80",
-    alt: "Elite Series Pro Watch side profile",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80",
-    alt: "Elite Series Pro Watch on charging stand",
-  },
-];
+import type { Product } from "@/lib/shopchat-data";
 
 const recommendations = [
   {
@@ -40,7 +25,19 @@ const recommendations = [
   },
 ];
 
-export function ProductDetailPage() {
+export function ProductDetailPage({ product }: { product: Product }) {
+  const heroImages = [
+    { src: product.image, alt: `${product.title} product view` },
+    {
+      src: "https://images.unsplash.com/photo-1512850189-8a6a1e0cc9c5?auto=format&fit=crop&w=1200&q=80",
+      alt: `${product.title} detail view`,
+    },
+    {
+      src: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=80",
+      alt: `${product.title} lifestyle view`,
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-surface-soft text-foreground">
       <header className="fixed top-0 inset-x-0 z-50 bg-surface/95 backdrop-blur-md border-b border-line shadow-sm">
@@ -109,38 +106,31 @@ export function ProductDetailPage() {
                 </span>
                 <div className="ml-auto flex items-center gap-2 rounded-full bg-surface px-3 py-2 text-sm text-slate-600 shadow-sm border border-line">
                   <Star className="h-4 w-4 text-amber-500" />
-                  4.9
+                  {product.rating}
                 </div>
               </div>
-              <h2 className="text-3xl font-bold tracking-tight">Elite Series Pro Watch</h2>
-              <p className="text-3xl font-semibold text-primary">$399.00</p>
+              <h2 className="text-3xl font-bold tracking-tight">{product.title}</h2>
+              <p className="text-3xl font-semibold text-primary">{product.priceLabel}.00</p>
             </div>
 
             <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-3xl border border-line bg-surface-container-low p-5">
-                <div className="flex items-center gap-3 text-secondary">
-                  <BatteryCharging className="h-5 w-5" />
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-on-surface-variant">Battery Life</p>
-                    <p className="font-semibold">48 Hours</p>
+              {(product.specs || []).slice(0, 2).map((spec, index) => (
+                <div key={spec.label} className="rounded-3xl border border-line bg-surface-container-low p-5">
+                  <div className="flex items-center gap-3 text-secondary">
+                    {index === 0 ? <BatteryCharging className="h-5 w-5" /> : <Droplet className="h-5 w-5" />}
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.2em] text-on-surface-variant">{spec.label}</p>
+                      <p className="font-semibold">{spec.value}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="rounded-3xl border border-line bg-surface-container-low p-5">
-                <div className="flex items-center gap-3 text-secondary">
-                  <Droplet className="h-5 w-5" />
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.2em] text-on-surface-variant">Water Resistance</p>
-                    <p className="font-semibold">100 Meters</p>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
 
             <div className="space-y-3 rounded-3xl border border-line bg-surface p-6">
               <h3 className="text-sm uppercase tracking-[0.2em] text-on-surface-variant">Description</h3>
               <p className="text-sm leading-7 text-muted-foreground">
-                Engineered for peak performance, the Elite Series Pro features a robust Grade 5 titanium case and a scratch-resistant sapphire crystal display. Experience seamless integration with your lifestyle through advanced health tracking and crystal-clear communication features.
+                {product.description}
               </p>
             </div>
 
@@ -154,10 +144,10 @@ export function ProductDetailPage() {
                   />
                 </div> 
                 <div>
-                  <p className="font-semibold">TechTime Official</p>
-                  <p className="text-sm text-muted-foreground">Top Rated Merchant • 4.2k Sales</p>
+                  <p className="font-semibold">{product.seller}</p>
+                  <p className="text-sm text-muted-foreground">Top Rated Merchant - {product.sales}</p>
                 </div>
-                <Link href="/store/techtime-official" className="ml-auto rounded-2xl border border-indigo-700 px-4 py-2 text-sm font-semibold text-indigo-700 hover:bg-indigo-50 dark:hover:bg-indigo-950 transition-colors">
+                <Link href={`/store/${product.sellerId}`} className="ml-auto rounded-2xl border border-indigo-700 px-4 py-2 text-sm font-semibold text-indigo-700 hover:bg-indigo-50 dark:hover:bg-indigo-950 transition-colors">
                   View Store
                 </Link>
               </div>
@@ -189,7 +179,7 @@ export function ProductDetailPage() {
           <button className="inline-flex h-14 w-14 items-center justify-center rounded-3xl bg-secondary-container text-on-secondary-container shadow-sm transition-transform hover:-translate-y-0.5 active:scale-95">
             <ShoppingCart className="h-6 w-6" />
           </button>
-          <Link href="/chat" className="flex-1 rounded-3xl bg-primary px-4 py-4 text-base font-semibold text-white shadow-lg transition-transform hover:-translate-y-0.5 active:scale-95 flex items-center justify-center">
+          <Link href={`/chat?product=${product.slug}`} className="flex-1 rounded-3xl bg-primary px-4 py-4 text-base font-semibold text-white shadow-lg transition-transform hover:-translate-y-0.5 active:scale-95 flex items-center justify-center">
             <MessageSquare className="mr-2 h-5 w-5 inline" />
             Ask Seller about this Item
           </Link>

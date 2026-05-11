@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArrowLeft, ShoppingBag, MessageSquare } from "lucide-react";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 
-export default function StorefrontPage({ params }: { params: { sellerId: string } }) {
+export default function StorefrontPage() {
   // In a real app, fetch seller/storefront info by params.sellerId
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
