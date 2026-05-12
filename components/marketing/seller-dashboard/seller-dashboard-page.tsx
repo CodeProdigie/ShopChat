@@ -12,6 +12,12 @@ import {
   Settings2,
   Store,
   Trash2,
+  TrendingUp,
+  Bell,
+  X,
+  ArrowUpRight,
+  ChevronRight,
+  Zap,
 } from "lucide-react";
 import { toast } from "sonner";
 import { ShopChatUserButton } from "@/components/auth/shopchat-user-button";
@@ -20,6 +26,102 @@ import type { ChatMessage, Conversation, Product } from "@/lib/shopchat-data";
 
 function money(value: number) {
   return `$${value.toLocaleString()}`;
+}
+
+const NAV_ITEMS = [
+  { icon: ShoppingBag, label: "Dashboard", active: true },
+  { icon: MessageSquare, label: "Messages" },
+  { icon: Package, label: "Inventory" },
+  { icon: BarChart3, label: "Analytics" },
+  { icon: Settings2, label: "Settings" },
+];
+
+function NavItem({
+  icon: Icon,
+  label,
+  active,
+}: {
+  icon: React.ElementType;
+  label: string;
+  active?: boolean;
+}) {
+  return (
+    <button
+      type="button"
+      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-[13px] font-medium transition-all ${
+        active
+          ? "bg-primary-soft text-primary font-semibold"
+          : "text-muted-foreground hover:bg-surface-soft hover:text-foreground"
+      }`}
+    >
+      <span
+        className={`flex items-center justify-center w-7 h-7 rounded-lg flex-shrink-0 ${
+          active
+            ? "bg-primary text-white"
+            : "bg-surface-strong text-muted-foreground"
+        }`}
+      >
+        <Icon className="h-3.5 w-3.5" />
+      </span>
+      {label}
+    </button>
+  );
+}
+
+function KpiCard({
+  icon: Icon,
+  label,
+  value,
+  delta,
+  deltaType = "positive",
+  sub,
+  progress,
+}: {
+  icon: React.ElementType;
+  label: string;
+  value: string;
+  delta?: string;
+  deltaType?: "positive" | "neutral" | "warning";
+  sub?: string;
+  progress?: number;
+}) {
+  const deltaColors = {
+    positive: "bg-secondary-container text-on-secondary-container",
+    neutral:  "bg-primary-soft text-primary",
+    warning:  "bg-tertiary-fixed text-on-tertiary-fixed-variant",
+  };
+  return (
+    <div className="rounded-2xl border border-line bg-surface p-5 card-shadow flex flex-col">
+      <div className="flex items-center justify-between gap-3">
+        <span className="flex items-center justify-center w-9 h-9 rounded-xl bg-surface-strong text-muted-foreground">
+          <Icon className="h-4 w-4" />
+        </span>
+        {delta && (
+          <span
+            className={`inline-flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-full ${deltaColors[deltaType]}`}
+          >
+            <ArrowUpRight className="h-3 w-3" />
+            {delta}
+          </span>
+        )}
+      </div>
+      <p className="mt-4 text-[11px] font-medium text-muted-foreground uppercase tracking-widest">
+        {label}
+      </p>
+      <p className="mt-1.5 text-[28px] font-bold text-foreground leading-none tracking-tight font-mono">
+        {value}
+      </p>
+      {sub && <p className="mt-2 text-xs text-muted-foreground">{sub}</p>}
+      {progress !== undefined && (
+        <div className="mt-4 h-1 bg-surface-strong rounded-full overflow-hidden">
+          <div
+            className="h-full rounded-full bg-primary transition-all"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+      )}
+    </div>
+  );
 }
 
 export function SellerDashboardPage({
@@ -39,20 +141,17 @@ export function SellerDashboardPage({
   const [offerProduct, setOfferProduct] = useState(initialProducts[0]?.slug || "");
   const [addProductModal, setAddProductModal] = useState(false);
   const [viewProductsModal, setViewProductsModal] = useState(false);
-  const totalInventory = products.reduce((sum, product) => sum + (product.stock || 0), 0);
+
   const selectedProduct = useMemo(
-    () => products.find((product) => product.slug === selectedConversation?.productSlug),
+    () => products.find((p) => p.slug === selectedConversation?.productSlug),
     [products, selectedConversation],
   );
 
   useEffect(() => {
-    if (!selectedConversation) {
-      return;
-    }
-
+    if (!selectedConversation) return;
     fetch(`/api/conversations/${selectedConversation.id}/messages`)
-      .then((response) => response.json())
-      .then((data) => setMessages(data.messages || []))
+      .then((r) => r.json())
+      .then((d) => setMessages(d.messages || []))
       .catch(() => setMessages([]));
   }, [selectedConversation]);
 
@@ -71,14 +170,12 @@ export function SellerDashboardPage({
         description: form.get("description"),
       }),
     });
-
     if (!response.ok) {
       toast.error("Unable to create product. Try again.");
       return;
     }
-
     const { product } = (await response.json()) as { product: Product };
-    setProducts((current) => [product, ...current]);
+    setProducts((c) => [product, ...c]);
     setOfferProduct(product.slug);
     event.currentTarget.reset();
     setAddProductModal(false);
@@ -87,13 +184,11 @@ export function SellerDashboardPage({
 
   async function removeProduct(slug: string) {
     const response = await fetch(`/api/products/${slug}`, { method: "DELETE" });
-
     if (!response.ok) {
       toast.error("Unable to delete product. Please try again.");
       return;
     }
-
-    setProducts((current) => current.filter((product) => product.slug !== slug));
+    setProducts((c) => c.filter((p) => p.slug !== slug));
     toast.success("Product deleted.");
   }
 
@@ -103,29 +198,22 @@ export function SellerDashboardPage({
       toast.error("Please enter a message before sending.");
       return;
     }
-
     const response = await fetch(`/api/conversations/${selectedConversation.id}/messages`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: draft.trim(), senderRole: "seller" }),
     });
-
     if (!response.ok) {
       toast.error("Could not send message. Please try again.");
       return;
     }
-
     const { message } = (await response.json()) as { message: ChatMessage };
-    setMessages((current) => [...current, message]);
+    setMessages((c) => [...c, message]);
     setDraft("");
-    toast.success("Message sent.");
   }
 
   async function sendOffer() {
-    if (!selectedConversation || !offerProduct) {
-      return;
-    }
-
+    if (!selectedConversation || !offerProduct) return;
     const response = await fetch(`/api/conversations/${selectedConversation.id}/offer`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -134,358 +222,563 @@ export function SellerDashboardPage({
         note: "Would you like to buy this item now?",
       }),
     });
-
     if (!response.ok) {
       toast.error("Unable to send offer. Try again.");
       return;
     }
-
     const { message } = (await response.json()) as { message: ChatMessage };
-    setMessages((current) => [...current, message]);
+    setMessages((c) => [...c, message]);
     toast.success("Offer sent to buyer.");
   }
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <div className="flex min-h-screen">
-        <aside className="hidden xl:flex w-72 flex-col border-r border-line bg-surface p-6">
-          <div className="mb-8">
-            <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">ShopChat Seller</p>
-            <h1 className="mt-3 text-2xl font-black text-foreground">Dashboard</h1>
-            <p className="mt-2 text-sm text-muted-foreground">Enterprise Tier</p>
+    <div className="min-h-screen bg-background text-foreground flex">
+
+      {/* ── Sidebar ──────────────────────────────────────── */}
+      <aside className="hidden xl:flex w-60 flex-col border-r border-line bg-surface shrink-0 sticky top-0 h-screen overflow-hidden">
+
+        {/* Logo */}
+        <div className="px-5 py-4 border-b border-line flex items-center gap-3">
+          <div className="w-8 h-8 rounded-xl bg-primary flex items-center justify-center flex-shrink-0">
+            <Store className="h-4 w-4 text-white" />
           </div>
-          <nav className="flex flex-1 flex-col gap-2">
-            <button className="flex items-center gap-3 rounded-3xl bg-primary-soft px-4 py-3 text-left text-primary transition hover:bg-primary/10">
-              <span className="grid h-10 w-10 place-items-center rounded-2xl bg-primary text-white">
-                <ShoppingBag className="h-5 w-5" />
-              </span>
-              <span className="font-semibold">Dashboard</span>
+          <div className="min-w-0">
+            <p className="text-[13px] font-bold text-foreground leading-none tracking-tight">ShopChat</p>
+            <p className="text-[10px] text-muted-foreground mt-0.5 uppercase tracking-widest">Seller Portal</p>
+          </div>
+        </div>
+
+        {/* Navigation */}
+        <nav className="flex-1 px-3 py-4 flex flex-col gap-0.5 overflow-y-auto">
+          <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest px-3 pb-2">
+            Main
+          </p>
+          {NAV_ITEMS.map(({ icon, label, active }) => (
+            <NavItem key={label} icon={icon} label={label} active={active} />
+          ))}
+        </nav>
+
+        {/* Revenue summary + CTA */}
+        <div className="px-4 pb-5 space-y-3">
+          <div className="rounded-xl border border-line bg-surface-soft p-4">
+            <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">
+              Monthly Revenue
+            </p>
+            <p className="mt-1.5 text-2xl font-bold text-foreground tracking-tight font-mono">$42,890</p>
+            <div className="mt-2 flex items-center gap-1.5 text-xs text-secondary font-medium">
+              <TrendingUp className="h-3 w-3" />
+              +12.5% vs last month
+            </div>
+            <div className="mt-3 h-1 bg-surface-strong rounded-full overflow-hidden">
+              <div className="h-full w-3/4 rounded-full bg-primary" />
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => setAddProductModal(true)}
+            className="w-full flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-[13px] font-semibold text-white hover:bg-primary-strong transition-colors"
+          >
+            <Plus className="h-3.5 w-3.5" />
+            New Product
+          </button>
+        </div>
+      </aside>
+
+      {/* ── Main ─────────────────────────────────────────── */}
+      <main className="flex-1 min-w-0 flex flex-col">
+
+        {/* Header */}
+        <header className="sticky top-0 z-40 border-b border-line bg-surface/90 backdrop-blur-xl px-6 py-3 flex items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground font-medium">
+              <span>ShopChat</span>
+              <ChevronRight className="h-3 w-3 opacity-50" />
+              <span className="text-foreground font-semibold">Dashboard</span>
+            </div>
+            <h1 className="mt-0.5 text-[17px] font-bold text-foreground tracking-tight leading-none">
+              Welcome back.
+            </h1>
+          </div>
+          <div className="flex items-center gap-2">
+            <button className="hidden sm:flex items-center gap-2 rounded-xl border border-line bg-surface px-3.5 py-2 text-[12px] font-medium text-muted-foreground hover:text-foreground hover:bg-surface-soft transition-colors">
+              <BarChart3 className="h-3.5 w-3.5" />
+              Reports
             </button>
-            <button className="flex items-center gap-3 rounded-3xl px-4 py-3 text-left text-foreground hover:bg-surface-soft transition">
-              <span className="grid h-10 w-10 place-items-center rounded-2xl bg-slate-100 text-slate-600">
-                <MessageSquare className="h-5 w-5" />
-              </span>
-              <span className="font-semibold">Messages</span>
-            </button>
-            <button className="flex items-center gap-3 rounded-3xl px-4 py-3 text-left text-foreground hover:bg-surface-soft transition">
-              <span className="grid h-10 w-10 place-items-center rounded-2xl bg-slate-100 text-slate-600">
-                <Package className="h-5 w-5" />
-              </span>
-              <span className="font-semibold">Inventory</span>
-            </button>
-            <button className="flex items-center gap-3 rounded-3xl px-4 py-3 text-left text-foreground hover:bg-surface-soft transition">
-              <span className="grid h-10 w-10 place-items-center rounded-2xl bg-slate-100 text-slate-600">
-                <BarChart3 className="h-5 w-5" />
-              </span>
-              <span className="font-semibold">Analytics</span>
-            </button>
-            <button className="flex items-center gap-3 rounded-3xl px-4 py-3 text-left text-foreground hover:bg-surface-soft transition">
-              <span className="grid h-10 w-10 place-items-center rounded-2xl bg-slate-100 text-slate-600">
-                <Settings2 className="h-5 w-5" />
-              </span>
-              <span className="font-semibold">Settings</span>
-            </button>
-          </nav>
-          <div className="mt-8 pt-6 border-t border-line">
             <button
               type="button"
               onClick={() => setAddProductModal(true)}
-              className="mb-3 w-full rounded-3xl bg-primary px-4 py-3 text-sm font-semibold text-white shadow-sm transition hover:bg-primary/90"
+              className="flex items-center gap-2 rounded-xl bg-primary px-3.5 py-2 text-[12px] font-semibold text-white hover:bg-primary-strong transition-colors"
             >
-              <Plus className="mr-2 h-4 w-4 inline" />
-              New Product
+              <Plus className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">List Product</span>
             </button>
-            <button className="flex w-full items-center gap-3 rounded-3xl px-4 py-3 text-sm font-semibold text-foreground hover:bg-surface-soft transition">
-              <span className="grid h-10 w-10 place-items-center rounded-2xl bg-slate-100 text-slate-600">
-                <span className="material-symbols-outlined">help_center</span>
-              </span>
-              Support
+            <button className="relative flex items-center justify-center w-9 h-9 rounded-xl border border-line bg-surface text-muted-foreground hover:text-foreground hover:bg-surface-soft transition-colors">
+              <Bell className="h-4 w-4" />
+              <span className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-primary" />
             </button>
+            <ThemeToggle />
+            <ShopChatUserButton />
           </div>
-        </aside>
+        </header>
 
-        <main className="flex-1">
-          <header className="sticky top-0 z-40 border-b border-line bg-background/90 backdrop-blur-xl">
-            <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-5 sm:px-6 lg:px-8 xl:flex-row xl:items-end xl:justify-between">
-              <div>
-                <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">Seller dashboard</p>
-                <h1 className="mt-2 text-3xl font-black text-foreground">Welcome back.</h1>
-                <p className="mt-2 text-sm text-muted-foreground">Here’s what’s happening with your store today.</p>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                <button className="inline-flex items-center gap-2 rounded-3xl border border-line bg-surface px-4 py-3 text-sm font-semibold text-foreground hover:bg-surface-soft transition">
-                  <span className="material-symbols-outlined">file_download</span>
-                  View Reports
+        {/* Content */}
+        <div className="flex-1 px-4 sm:px-6 py-6 space-y-5 max-w-7xl w-full mx-auto">
+
+          {/* ── KPI row ──────────────────────────── */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <KpiCard
+              icon={ShoppingBag}
+              label="Total Sales"
+              value="$42,890"
+              delta="12.5%"
+              deltaType="positive"
+              progress={75}
+            />
+            <KpiCard
+              icon={MessageSquare}
+              label="Conversations"
+              value={String(conversations.length)}
+              delta="+4 today"
+              deltaType="neutral"
+              sub="Avg. response: 3 min"
+            />
+            <KpiCard
+              icon={Package}
+              label="New Orders"
+              value="118"
+              delta="8 pending"
+              deltaType="warning"
+              sub="Updated just now"
+            />
+            <KpiCard
+              icon={TrendingUp}
+              label="Conversion"
+              value="22%"
+              delta="+15% this week"
+              deltaType="positive"
+              progress={22}
+            />
+          </div>
+
+          {/* ── Insight + Conversations ───────────── */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.6fr] gap-5">
+
+            {/* Insight card */}
+            <div className="rounded-2xl border border-line bg-surface p-5 card-shadow flex flex-col">
+              <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold text-secondary uppercase tracking-widest bg-secondary-container px-2.5 py-1 rounded-full w-fit">
+                <Zap className="h-2.5 w-2.5" />
+                Growth Insight
+              </span>
+              <h2 className="mt-4 text-[15px] font-bold text-foreground leading-snug tracking-tight">
+                Conversation rates are up 15% this week.
+              </h2>
+              <p className="mt-3 text-[13px] text-muted-foreground leading-relaxed flex-1">
+                Responding within 5 minutes has increased checkout conversion by 22% compared to last month.
+              </p>
+              <div className="mt-5 pt-4 border-t border-line flex items-center justify-between">
+                <button className="text-[12px] font-semibold text-primary flex items-center gap-1 hover:gap-2 transition-all">
+                  View full analytics
+                  <ArrowUpRight className="h-3.5 w-3.5" />
                 </button>
-                <button
-                  type="button"
-                  onClick={() => setAddProductModal(true)}
-                  className="inline-flex items-center gap-2 rounded-3xl bg-primary px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-primary/90 transition"
-                >
-                  <Plus className="h-4 w-4" />
-                  List New Product
-                </button>
-              </div>
-            </div>
-          </header>
-
-          <section className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <div className="grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
-              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                <div className="rounded-3xl border border-line bg-surface p-6 shadow-sm">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="rounded-3xl bg-primary-soft p-3 text-primary">
-                      <ShoppingBag className="h-5 w-5" />
-                    </div>
-                    <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">+12.5%</span>
-                  </div>
-                  <p className="mt-5 text-sm text-muted-foreground">Total Sales</p>
-                  <p className="mt-2 text-3xl font-bold">$42,890.00</p>
-                  <div className="mt-5 h-2 overflow-hidden rounded-full bg-slate-100">
-                    <div className="h-full w-3/4 rounded-full bg-indigo-600" />
-                  </div>
+                <div className="flex items-center gap-1.5 text-[11px] text-muted-foreground font-mono">
+                  <span className="w-1.5 h-1.5 rounded-full bg-secondary inline-block" />
+                  Live data
                 </div>
-
-                <div className="rounded-3xl border border-line bg-surface p-6 shadow-sm">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="rounded-3xl bg-secondary-container p-3 text-on-secondary-container">
-                      <MessageSquare className="h-5 w-5" />
-                    </div>
-                    <span className="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">+4</span>
-                  </div>
-                  <p className="mt-5 text-sm text-muted-foreground">Active Conversations</p>
-                  <p className="mt-2 text-3xl font-bold">{conversations.length}</p>
-                  <p className="mt-2 text-sm text-muted-foreground">Average response time: 3 mins</p>
-                </div>
-
-                <div className="rounded-3xl border border-line bg-surface p-6 shadow-sm">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="rounded-3xl bg-tertiary-fixed p-3 text-on-tertiary-fixed-variant">
-                      <Package className="h-5 w-5" />
-                    </div>
-                    <span className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">8 Pending</span>
-                  </div>
-                  <p className="mt-5 text-sm text-muted-foreground">New Orders</p>
-                  <p className="mt-2 text-3xl font-bold">118</p>
-                  <div className="mt-5 flex -space-x-2">
-                    <div className="inline-flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-slate-100 text-sm text-slate-600">A</div>
-                    <div className="inline-flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-slate-100 text-sm text-slate-600">J</div>
-                    <div className="inline-flex h-10 w-10 items-center justify-center rounded-full border-2 border-white bg-slate-100 text-sm text-slate-600">+5</div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="rounded-3xl border border-line bg-surface p-6 shadow-sm">
-                <div className="flex items-center justify-between gap-4">
-                  <div>
-                    <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">Growth Insights</p>
-                    <h2 className="mt-3 text-xl font-semibold text-foreground">Conversation rates are up by 15% this week.</h2>
-                  </div>
-                  <div className="rounded-3xl bg-primary-fixed px-4 py-2 text-primary font-semibold">Trending</div>
-                </div>
-                <p className="mt-5 text-sm leading-6 text-muted-foreground">
-                  Responding to messages within 5 minutes has increased checkout conversion by 22% compared to last month.
-                </p>
-                <button className="mt-6 rounded-full bg-secondary-fixed px-5 py-3 text-sm font-semibold text-on-secondary-fixed transition hover:opacity-90">
-                  View Analytics
-                </button>
               </div>
             </div>
 
-            <div className="mt-6 grid gap-6 lg:grid-cols-[1.4fr_0.6fr]">
-              <div className="rounded-3xl border border-line bg-surface p-6 shadow-sm">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">Active Conversations</p>
-                    <h2 className="mt-3 text-xl font-semibold text-foreground">Buyer inbox</h2>
-                  </div>
-                  <button className="text-indigo-600 font-semibold hover:underline">View All</button>
+            {/* Conversations list */}
+            <div className="rounded-2xl border border-line bg-surface p-5 card-shadow">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">Inbox</p>
+                  <h2 className="mt-0.5 text-[15px] font-bold text-foreground tracking-tight">Active Conversations</h2>
                 </div>
-                <div className="mt-6 space-y-3">
-                  {conversations.map((conversation) => {
-                    const product = products.find((item) => item.slug === conversation.productSlug);
-                    const active = conversation.id === selectedConversation?.id;
-                    return (
-                      <button
-                        key={conversation.id}
-                        type="button"
-                        onClick={() => setSelectedConversation(conversation)}
-                        className={`w-full rounded-3xl border px-4 py-4 text-left transition ${
-                          active ? "border-indigo-600 bg-indigo-50" : "border-line bg-white hover:bg-surface-soft"
+                <button className="text-[12px] font-semibold text-primary hover:underline">View all</button>
+              </div>
+              <div className="space-y-1">
+                {conversations.map((convo) => {
+                  const product = products.find((p) => p.slug === convo.productSlug);
+                  const active = convo.id === selectedConversation?.id;
+                  const initials = convo.buyerId.slice(0, 2).toUpperCase();
+                  return (
+                    <button
+                      key={convo.id}
+                      type="button"
+                      onClick={() => setSelectedConversation(convo)}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left transition-all ${
+                        active
+                          ? "bg-primary-soft border border-primary/20"
+                          : "hover:bg-surface-soft border border-transparent"
+                      }`}
+                    >
+                      <div
+                        className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 text-[12px] font-bold border ${
+                          active
+                            ? "bg-primary text-white border-primary"
+                            : "bg-surface-strong text-muted-foreground border-line"
                         }`}
                       >
-                        <div className="flex items-center gap-4">
-                          <div className="h-12 w-12 rounded-3xl bg-slate-100" />
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center justify-between gap-2">
-                              <p className="font-semibold text-foreground">{conversation.buyerId}</p>
-                              <span className="text-[11px] uppercase tracking-[0.25em] text-muted-foreground">{conversation.status.replaceAll("_", " ")}</span>
-                            </div>
-                            <p className="mt-1 truncate text-sm text-muted-foreground">{product?.title || conversation.productSlug}</p>
-                          </div>
+                        {initials}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-[13px] font-semibold text-foreground truncate">{convo.buyerId}</span>
+                          <span
+                            className={`text-[10px] font-medium px-2 py-0.5 rounded-full uppercase tracking-wide flex-shrink-0 ${
+                              convo.status === "active"
+                                ? "bg-secondary-container text-on-secondary-container"
+                                : "bg-surface-strong text-muted-foreground"
+                            }`}
+                          >
+                            {convo.status.replace(/_/g, " ")}
+                          </span>
                         </div>
-                      </button>
-                    );
-                  })}
-                  {conversations.length === 0 && (
-                    <div className="rounded-3xl border border-dashed border-line bg-white p-6 text-center text-sm text-muted-foreground">
-                      No active conversations yet.
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="space-y-6">
-                <div className="rounded-3xl border border-line bg-surface p-6 shadow-sm">
-                  <div className="flex items-center justify-between gap-4">
-                    <div>
-                      <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">Quick actions</p>
-                      <h3 className="mt-3 text-lg font-semibold">Seller tools</h3>
-                    </div>
-                  </div>
-                  <div className="mt-5 grid gap-3">
-                    <button
-                      type="button"
-                      onClick={() => setAddProductModal(true)}
-                      className="rounded-3xl border border-line bg-white px-4 py-4 text-left text-sm font-semibold text-foreground hover:bg-surface-soft"
-                    >
-                      + Add product
+                        <p className="text-[11.5px] text-muted-foreground truncate mt-0.5">
+                          {product?.title || convo.productSlug}
+                        </p>
+                      </div>
                     </button>
-                    <button
-                      type="button"
-                      onClick={() => setViewProductsModal(true)}
-                      className="rounded-3xl border border-line bg-white px-4 py-4 text-left text-sm font-semibold text-foreground hover:bg-surface-soft"
-                    >
-                      View inventory
-                    </button>
+                  );
+                })}
+                {conversations.length === 0 && (
+                  <div className="rounded-xl border border-dashed border-line bg-surface-soft p-6 text-center text-[13px] text-muted-foreground">
+                    No active conversations.
                   </div>
-                </div>
-
-                <div className="rounded-3xl border border-line bg-surface p-6 shadow-sm">
-                  <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">Selected conversation</p>
-                  <h3 className="mt-3 text-lg font-semibold text-foreground">{selectedProduct?.title || "No buyer selected"}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    {selectedConversation
-                      ? `Buyer: ${selectedConversation.buyerId}`
-                      : "Pick a conversation to view messages and send a quick response."}
-                  </p>
-                </div>
+                )}
               </div>
             </div>
+          </div>
 
-            <div className="mt-6 rounded-3xl border border-line bg-surface p-6 shadow-sm">
-              <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-                <div>
-                  <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground">Conversation</p>
-                  <h2 className="mt-3 text-xl font-semibold text-foreground">Message buyer</h2>
-                </div>
-                <div className="flex flex-wrap gap-3">
-                  <button
-                    type="button"
-                    onClick={sendOffer}
-                    className="rounded-full border border-secondary px-4 py-3 text-sm font-semibold text-secondary hover:bg-secondary/10"
-                  >
-                    Send offer
-                  </button>
-                  <select
-                    value={offerProduct}
-                    onChange={(event) => setOfferProduct(event.target.value)}
-                    className="rounded-full border border-line bg-background px-4 py-3 text-sm"
-                  >
-                    {products.map((product) => (
-                      <option key={product.slug} value={product.slug}>{product.title}</option>
-                    ))}
-                  </select>
-                </div>
+          {/* ── Message thread + sidebar tools ─── */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_220px] gap-5">
+
+            {/* Message panel */}
+            <div className="rounded-2xl border border-line bg-surface p-5 card-shadow flex flex-col gap-4">
+              <div>
+                <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">Conversation</p>
+                <h2 className="mt-0.5 text-[15px] font-bold text-foreground tracking-tight">
+                  {selectedProduct?.title || selectedConversation?.buyerId || "Select a conversation"}
+                </h2>
+                {selectedConversation && (
+                  <p className="text-xs text-muted-foreground mt-0.5">Buyer: {selectedConversation.buyerId}</p>
+                )}
               </div>
 
-              <div className="mt-6 space-y-4">
-                {messages.map((message) => (
-                  <div key={message.id} className={`flex ${message.senderRole === "seller" ? "justify-end" : "justify-start"}`}>
-                    <div className="max-w-[85%]">
-                      <div className="text-xs text-muted-foreground mb-1">{message.senderRole === "seller" ? "You" : selectedConversation?.buyerId}</div>
-                      <div className={`rounded-3xl px-4 py-3 text-sm leading-6 ${message.senderRole === "seller" ? "bg-primary text-white" : "bg-white border border-line"}`}>
-                        {message.text.includes("OFFER::") ? (
-                          <OfferBubble text={message.text} products={products} />
-                        ) : (
-                          message.text
-                        )}
-                      </div>
+              {/* Offer bar */}
+              <div className="flex flex-wrap items-center gap-2 px-3 py-2.5 rounded-xl border border-line bg-surface-soft">
+                <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest">
+                  Send offer
+                </span>
+                <select
+                  value={offerProduct}
+                  onChange={(e) => setOfferProduct(e.target.value)}
+                  className="flex-1 min-w-[120px] bg-surface border border-line rounded-lg px-3 py-1.5 text-[12px] text-foreground outline-none focus:border-primary transition-colors"
+                >
+                  {products.map((p) => (
+                    <option key={p.slug} value={p.slug}>{p.title}</option>
+                  ))}
+                </select>
+                <button
+                  type="button"
+                  onClick={sendOffer}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-secondary/30 bg-secondary-container text-on-secondary-container text-[12px] font-semibold hover:opacity-80 transition-opacity"
+                >
+                  <Send className="h-3 w-3" />
+                  Send
+                </button>
+              </div>
+
+              {/* Messages */}
+              <div className="flex-1 space-y-3 min-h-[200px]">
+                {messages.map((msg) => (
+                  <div
+                    key={msg.id}
+                    className={`flex flex-col ${msg.senderRole === "seller" ? "items-end" : "items-start"}`}
+                  >
+                    <span className="text-[10px] text-muted-foreground font-mono mb-1 px-1">
+                      {msg.senderRole === "seller" ? "You" : selectedConversation?.buyerId}
+                    </span>
+                    <div
+                      className={`max-w-[80%] px-4 py-2.5 text-[13.5px] leading-relaxed ${
+                        msg.senderRole === "seller"
+                          ? "bg-primary text-white rounded-2xl rounded-br-sm"
+                          : "bg-surface-strong text-foreground border border-line rounded-2xl rounded-bl-sm"
+                      }`}
+                    >
+                      {msg.text.includes("OFFER::") ? (
+                        <OfferBubble text={msg.text} products={products} />
+                      ) : (
+                        msg.text
+                      )}
                     </div>
                   </div>
                 ))}
                 {selectedConversation && messages.length === 0 && (
-                  <div className="rounded-3xl border border-dashed border-line bg-white p-6 text-center text-sm text-muted-foreground">
-                    No messages yet.
+                  <div className="flex items-center justify-center min-h-[120px] rounded-xl border border-dashed border-line bg-surface-soft text-[13px] text-muted-foreground">
+                    No messages yet — start the conversation.
+                  </div>
+                )}
+                {!selectedConversation && (
+                  <div className="flex items-center justify-center min-h-[120px] rounded-xl border border-dashed border-line bg-surface-soft text-[13px] text-muted-foreground">
+                    Select a conversation to view messages.
                   </div>
                 )}
               </div>
 
-              <form onSubmit={sendMessage} className="mt-6 flex flex-col gap-3 sm:flex-row">
+              {/* Composer */}
+              <form onSubmit={sendMessage} className="flex gap-2">
                 <input
                   value={draft}
-                  onChange={(event) => setDraft(event.target.value)}
-                  placeholder="Write a message..."
-                  className="min-w-0 flex-1 rounded-3xl border border-line bg-background px-4 py-4 text-sm outline-none focus:border-primary"
+                  onChange={(e) => setDraft(e.target.value)}
+                  placeholder="Write a message to the buyer…"
+                  className="flex-1 min-w-0 rounded-xl border border-line bg-surface-soft px-4 py-2.5 text-[13px] text-foreground placeholder:text-muted-foreground outline-none focus:border-primary transition-colors"
                 />
-                <button className="rounded-3xl bg-primary px-6 py-4 text-sm font-semibold text-white hover:bg-primary/90 transition">
+                <button
+                  type="submit"
+                  className="flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-[13px] font-semibold text-white hover:bg-primary-strong transition-colors"
+                >
+                  <Send className="h-3.5 w-3.5" />
                   Send
                 </button>
               </form>
             </div>
-          </section>
-        </main>
-      </div>
 
-      {addProductModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 p-4">
-          <div className="w-full max-w-md rounded-3xl border border-line bg-surface p-6 shadow-2xl">
-            <div className="flex items-center justify-between">
-              <div>
-                <h2 className="text-xl font-semibold">Add New Product</h2>
-                <p className="text-sm text-muted-foreground">Create a product for your shop and make it available to buyers.</p>
+            {/* Sidebar tools */}
+            <div className="flex flex-col gap-4">
+
+              {/* Quick actions */}
+              <div className="rounded-2xl border border-line bg-surface p-4 card-shadow">
+                <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest mb-3">
+                  Quick Actions
+                </p>
+                <div className="flex flex-col gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setAddProductModal(true)}
+                    className="flex items-center justify-between w-full px-3.5 py-2.5 rounded-xl border border-line bg-surface-soft text-[12.5px] font-medium text-foreground hover:bg-surface-strong transition-colors"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Plus className="h-3.5 w-3.5 text-muted-foreground" />
+                      Add product
+                    </span>
+                    <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setViewProductsModal(true)}
+                    className="flex items-center justify-between w-full px-3.5 py-2.5 rounded-xl border border-line bg-surface-soft text-[12.5px] font-medium text-foreground hover:bg-surface-strong transition-colors"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Package className="h-3.5 w-3.5 text-muted-foreground" />
+                      View inventory
+                    </span>
+                    <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
+                  </button>
+                </div>
               </div>
-              <button onClick={() => setAddProductModal(false)} className="text-muted-foreground hover:text-foreground">✕</button>
+
+              {/* Selected product preview */}
+              <div className="rounded-2xl border border-line bg-surface p-4 card-shadow">
+                <p className="text-[10px] font-semibold text-muted-foreground uppercase tracking-widest mb-3">
+                  In Discussion
+                </p>
+                {selectedProduct ? (
+                  <div className="space-y-2">
+                    {selectedProduct.image && (
+                      <img
+                        src={selectedProduct.image}
+                        alt={selectedProduct.title}
+                        className="w-full h-28 object-cover rounded-xl border border-line"
+                      />
+                    )}
+                    <p className="text-[13px] font-bold text-foreground leading-snug tracking-tight">
+                      {selectedProduct.title}
+                    </p>
+                    <p className="text-[12px] font-bold text-primary font-mono">
+                      {money(selectedProduct.price)}
+                    </p>
+                    {selectedProduct.stock !== undefined && (
+                      <p className="text-[11px] text-muted-foreground">{selectedProduct.stock} in stock</p>
+                    )}
+                    <Link
+                      href={`/product/${selectedProduct.slug}`}
+                      className="mt-1 inline-flex items-center gap-1 text-[11.5px] font-semibold text-primary hover:underline"
+                    >
+                      View listing <ArrowUpRight className="h-3 w-3" />
+                    </Link>
+                  </div>
+                ) : (
+                  <p className="text-[12px] text-muted-foreground leading-relaxed">
+                    Select a conversation to see the product being discussed.
+                  </p>
+                )}
+              </div>
             </div>
-            <form onSubmit={createProduct} className="mt-6 space-y-4">
-              <input name="title" required placeholder="Product name" className="w-full rounded-3xl border border-line bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
-              <input name="price" required min="1" type="number" placeholder="Price" className="w-full rounded-3xl border border-line bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
-              <input name="category" placeholder="Category" className="w-full rounded-3xl border border-line bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
-              <input name="stock" min="1" type="number" placeholder="Stock" className="w-full rounded-3xl border border-line bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
-              <input name="image" placeholder="Image URL" className="w-full rounded-3xl border border-line bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
-              <textarea name="description" required placeholder="Description" rows={4} className="w-full rounded-3xl border border-line bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
-              <button className="w-full rounded-3xl bg-primary px-4 py-3 text-sm font-semibold text-white hover:bg-primary/90 transition">Publish product</button>
+          </div>
+        </div>
+      </main>
+
+      {/* ── Add Product Modal ─────────────────────────────── */}
+      {addProductModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/10 backdrop-blur-md p-4">
+          <div className="w-full max-w-md rounded-2xl border border-line bg-surface card-shadow p-6">
+            <div className="flex items-start justify-between gap-4 mb-5">
+              <div>
+                <h2 className="text-[16px] font-bold text-foreground tracking-tight">Add New Product</h2>
+                <p className="mt-1 text-[12.5px] text-muted-foreground leading-relaxed">
+                  Publish a listing and make it available to buyers.
+                </p>
+              </div>
+              <button
+                onClick={() => setAddProductModal(false)}
+                className="flex items-center justify-center w-7 h-7 rounded-lg border border-line bg-surface-soft text-muted-foreground hover:text-foreground hover:bg-surface-strong transition-colors flex-shrink-0"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
+            </div>
+            <form onSubmit={createProduct} className="space-y-3">
+              {(
+                [
+                  { name: "title", placeholder: "Product name", required: true },
+                  { name: "category", placeholder: "Category" },
+                  { name: "image", placeholder: "Image URL" },
+                ] as const
+              ).map(({ name, placeholder, required }) => (
+                <div key={name}>
+                  <label className="block text-[10px] font-semibold text-muted-foreground uppercase tracking-widest mb-1.5">
+                    {placeholder}
+                  </label>
+                  <input
+                    name={name}
+                    required={required}
+                    placeholder={placeholder}
+                    className="w-full rounded-xl border border-line bg-surface-soft px-3.5 py-2.5 text-[13px] text-foreground placeholder:text-muted-foreground outline-none focus:border-primary transition-colors"
+                  />
+                </div>
+              ))}
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[10px] font-semibold text-muted-foreground uppercase tracking-widest mb-1.5">
+                    Price ($)
+                  </label>
+                  <input
+                    name="price"
+                    required
+                    min="1"
+                    type="number"
+                    placeholder="0.00"
+                    className="w-full rounded-xl border border-line bg-surface-soft px-3.5 py-2.5 text-[13px] text-foreground placeholder:text-muted-foreground outline-none focus:border-primary transition-colors font-mono"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-semibold text-muted-foreground uppercase tracking-widest mb-1.5">
+                    Stock
+                  </label>
+                  <input
+                    name="stock"
+                    min="1"
+                    type="number"
+                    placeholder="0"
+                    className="w-full rounded-xl border border-line bg-surface-soft px-3.5 py-2.5 text-[13px] text-foreground placeholder:text-muted-foreground outline-none focus:border-primary transition-colors font-mono"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-[10px] font-semibold text-muted-foreground uppercase tracking-widest mb-1.5">
+                  Description
+                </label>
+                <textarea
+                  name="description"
+                  required
+                  rows={3}
+                  placeholder="Describe your product…"
+                  className="w-full rounded-xl border border-line bg-surface-soft px-3.5 py-2.5 text-[13px] text-foreground placeholder:text-muted-foreground outline-none focus:border-primary transition-colors resize-none"
+                />
+              </div>
+              <div className="pt-1 flex gap-3">
+                <button
+                  type="button"
+                  onClick={() => setAddProductModal(false)}
+                  className="flex-1 rounded-xl border border-line bg-surface-soft px-4 py-2.5 text-[13px] font-semibold text-foreground hover:bg-surface-strong transition-colors"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 rounded-xl bg-primary px-4 py-2.5 text-[13px] font-semibold text-white hover:bg-primary-strong transition-colors"
+                >
+                  Publish Product
+                </button>
+              </div>
             </form>
           </div>
         </div>
       )}
 
+      {/* ── Inventory Modal ───────────────────────────────── */}
       {viewProductsModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/50 p-4">
-          <div className="w-full max-w-2xl rounded-3xl border border-line bg-surface p-6 shadow-2xl max-h-[80vh] overflow-y-auto">
-            <div className="flex items-center justify-between">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/10 backdrop-blur-md p-4">
+          <div className="w-full max-w-2xl rounded-2xl border border-line bg-surface card-shadow max-h-[82vh] flex flex-col">
+            <div className="flex items-start justify-between gap-4 p-6 border-b border-line flex-shrink-0">
               <div>
-                <h2 className="text-xl font-semibold">Your Inventory</h2>
-                <p className="text-sm text-muted-foreground">Review your published products and delete any listing you no longer want.</p>
+                <h2 className="text-[16px] font-bold text-foreground tracking-tight">Inventory</h2>
+                <p className="mt-1 text-[12.5px] text-muted-foreground">
+                  {products.length} product{products.length !== 1 ? "s" : ""} listed
+                </p>
               </div>
-              <button onClick={() => setViewProductsModal(false)} className="text-muted-foreground hover:text-foreground">✕</button>
+              <button
+                onClick={() => setViewProductsModal(false)}
+                className="flex items-center justify-center w-7 h-7 rounded-lg border border-line bg-surface-soft text-muted-foreground hover:text-foreground hover:bg-surface-strong transition-colors flex-shrink-0"
+              >
+                <X className="h-3.5 w-3.5" />
+              </button>
             </div>
-            <div className="mt-6 space-y-4">
+            <div className="overflow-y-auto flex-1 p-6 space-y-3">
               {products.map((product) => (
-                <div key={product.slug} className="flex flex-col gap-3 rounded-3xl border border-line bg-white p-4 sm:flex-row sm:items-center">
-                  <img src={product.image} alt={product.title} className="h-20 w-20 rounded-3xl object-cover" />
+                <div
+                  key={product.slug}
+                  className="flex items-center gap-4 rounded-xl border border-line bg-surface-soft p-4 hover:bg-surface-strong transition-colors"
+                >
+                  <img
+                    src={product.image}
+                    alt={product.title}
+                    className="h-14 w-14 rounded-xl object-cover border border-line flex-shrink-0"
+                  />
                   <div className="flex-1 min-w-0">
-                    <p className="font-semibold text-foreground">{product.title}</p>
-                    <p className="mt-1 text-sm text-muted-foreground">{money(product.price)} · {product.stock || 0} in stock</p>
+                    <p className="text-[13.5px] font-semibold text-foreground truncate">{product.title}</p>
+                    <div className="flex items-center gap-3 mt-1 flex-wrap">
+                      <span className="text-[12px] font-bold text-primary font-mono">{money(product.price)}</span>
+                      <span className="text-[11px] text-muted-foreground">{product.stock ?? 0} in stock</span>
+                      {product.category && (
+                        <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-surface-strong text-muted-foreground uppercase tracking-wide border border-line">
+                          {product.category}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <div className="flex gap-3">
-                    <Link href={`/product/${product.slug}`} className="rounded-3xl border border-line px-4 py-2 text-sm font-semibold hover:bg-surface-soft">View</Link>
-                    <button onClick={() => removeProduct(product.slug)} className="rounded-3xl border border-line px-4 py-2 text-sm font-semibold text-error hover:bg-error/10">Delete</button>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <Link
+                      href={`/product/${product.slug}`}
+                      className="rounded-lg border border-line bg-surface px-3 py-1.5 text-[12px] font-semibold text-foreground hover:bg-surface-strong transition-colors"
+                    >
+                      View
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => removeProduct(product.slug)}
+                      className="rounded-lg border border-error/20 bg-error/5 px-3 py-1.5 text-[12px] font-semibold text-error hover:bg-error/10 transition-colors flex items-center gap-1.5"
+                    >
+                      <Trash2 className="h-3 w-3" />
+                      Delete
+                    </button>
                   </div>
                 </div>
               ))}
               {products.length === 0 && (
-                <div className="rounded-3xl border border-dashed border-line bg-white p-6 text-center text-sm text-muted-foreground">You haven’t added any products yet.</div>
+                <div className="rounded-xl border border-dashed border-line bg-surface-soft p-8 text-center text-[13px] text-muted-foreground">
+                  No products listed yet.
+                </div>
               )}
             </div>
           </div>
@@ -497,24 +790,27 @@ export function SellerDashboardPage({
 
 function OfferBubble({ text, products }: { text: string; products: Product[] }) {
   const [note, offer] = text.split("\n\nOFFER::");
-  const product = products.find((item) => item.slug === offer);
-
-  if (!product) {
-    return <>{note}</>;
-  }
-
+  const product = products.find((p) => p.slug === offer);
+  if (!product) return <>{note}</>;
   return (
-    <div className="space-y-3 text-left text-foreground">
-      <p>{note}</p>
-      <div className="rounded-xl bg-white p-3 text-slate-900">
-        <div className="flex gap-3">
-          <img src={product.image} alt={product.title} className="h-16 w-16 rounded-lg object-cover" />
-          <div>
-            <p className="font-semibold">{product.title}</p>
-            <p className="text-sm text-slate-500">{product.priceLabel}</p>
+    <div className="space-y-2 text-left">
+      <p className="text-sm">{note}</p>
+      <div className="rounded-xl border border-white/20 bg-white/10 p-3">
+        <div className="flex gap-3 items-center">
+          <img
+            src={product.image}
+            alt={product.title}
+            className="h-12 w-12 rounded-lg object-cover flex-shrink-0"
+          />
+          <div className="min-w-0">
+            <p className="text-[13px] font-semibold truncate">{product.title}</p>
+            <p className="text-[11px] opacity-70 mt-0.5">{product.priceLabel}</p>
           </div>
         </div>
-        <Link href={`/payment-success?product=${product.slug}`} className="mt-3 inline-flex w-full justify-center rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white">
+        <Link
+          href={`/payment-success?product=${product.slug}`}
+          className="mt-3 flex items-center justify-center w-full rounded-lg bg-white/20 hover:bg-white/30 transition-colors px-4 py-2 text-[12px] font-semibold"
+        >
           Buy Now
         </Link>
       </div>
