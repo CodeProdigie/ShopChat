@@ -35,6 +35,8 @@ export function SellerDashboardPage({
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [draft, setDraft] = useState("");
   const [offerProduct, setOfferProduct] = useState(initialProducts[0]?.slug || "");
+  const [addProductModal, setAddProductModal] = useState(false);
+  const [viewProductsModal, setViewProductsModal] = useState(false);
   const totalInventory = products.reduce((sum, product) => sum + (product.stock || 0), 0);
   const selectedProduct = useMemo(
     () => products.find((product) => product.slug === selectedConversation?.productSlug),
@@ -76,6 +78,7 @@ export function SellerDashboardPage({
     setProducts((current) => [product, ...current]);
     setOfferProduct(product.slug);
     event.currentTarget.reset();
+    setAddProductModal(false);
   }
 
   async function removeProduct(slug: string) {
@@ -160,55 +163,24 @@ export function SellerDashboardPage({
 
         <div className="mt-6 grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
           <section className="space-y-6">
-            <form onSubmit={createProduct} className="rounded-2xl border border-line bg-surface p-5 shadow-sm">
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <h1 className="text-2xl font-bold">Create product</h1>
-                  <p className="text-sm text-muted-foreground">New products appear in the buyer marketplace.</p>
-                </div>
-                <Plus className="h-5 w-5 text-primary" />
-              </div>
-
-              <div className="mt-5 grid gap-3 sm:grid-cols-2">
-                <input name="title" required placeholder="Product name" className="rounded-xl border border-line bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
-                <input name="price" required min="1" type="number" placeholder="Price" className="rounded-xl border border-line bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
-                <input name="category" placeholder="Category" className="rounded-xl border border-line bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
-                <input name="stock" min="1" type="number" placeholder="Stock" className="rounded-xl border border-line bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
-                <input name="image" placeholder="Image URL" className="rounded-xl border border-line bg-background px-4 py-3 text-sm outline-none focus:border-primary sm:col-span-2" />
-                <textarea name="description" required placeholder="Description" rows={3} className="rounded-xl border border-line bg-background px-4 py-3 text-sm outline-none focus:border-primary sm:col-span-2" />
-              </div>
-
-              <button className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white">
-                <Plus className="h-4 w-4" />
-                Publish product
-              </button>
-            </form>
-
-            <div className="rounded-2xl border border-line bg-surface shadow-sm">
-              <div className="border-b border-line p-5">
-                <h2 className="text-xl font-bold">Your products</h2>
-              </div>
-              <div className="divide-y divide-line">
-                {products.map((product) => (
-                  <div key={product.slug} className="flex items-center gap-4 p-4">
-                    <img src={product.image} alt={product.title} className="h-16 w-16 rounded-xl object-cover" />
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate font-semibold">{product.title}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {money(product.price)} - {product.stock || 0} in stock
-                      </p>
-                    </div>
-                    <Link href={`/product/${product.slug}`} className="hidden rounded-xl border border-line px-3 py-2 text-sm font-semibold sm:inline-flex">
-                      View
-                    </Link>
-                    <button onClick={() => removeProduct(product.slug)} className="grid h-10 w-10 place-items-center rounded-xl border border-line text-muted-foreground hover:text-error">
-                      <Trash2 className="h-4 w-4" />
-                    </button>
-                  </div>
-                ))}
-                {products.length === 0 ? (
-                  <div className="p-8 text-center text-sm text-muted-foreground">No products yet.</div>
-                ) : null}
+            <div className="rounded-2xl border border-line bg-surface p-5 shadow-sm">
+              <h2 className="text-xl font-bold">Product Management</h2>
+              <p className="text-sm text-muted-foreground mt-2">Manage your products and inventory.</p>
+              <div className="mt-4 space-y-3">
+                <button
+                  onClick={() => setAddProductModal(true)}
+                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white hover:bg-primary/90"
+                >
+                  <Plus className="h-4 w-4" />
+                  Add Product
+                </button>
+                <button
+                  onClick={() => setViewProductsModal(true)}
+                  className="w-full flex items-center justify-center gap-2 rounded-xl border border-line bg-surface px-4 py-3 text-sm font-semibold hover:bg-surface-soft"
+                >
+                  <Package className="h-4 w-4" />
+                  View Products
+                </button>
               </div>
             </div>
           </section>
@@ -254,12 +226,17 @@ export function SellerDashboardPage({
                 <div className="flex-1 space-y-3 overflow-y-auto p-4">
                   {messages.map((message) => (
                     <div key={message.id} className={`flex ${message.senderRole === "seller" ? "justify-end" : "justify-start"}`}>
-                      <div className={`max-w-[82%] rounded-2xl px-4 py-3 text-sm leading-6 ${message.senderRole === "seller" ? "bg-primary text-white" : "bg-surface-soft"}`}>
-                        {message.text.includes("OFFER::") ? (
-                          <OfferBubble text={message.text} products={products} />
-                        ) : (
-                          message.text
-                        )}
+                      <div className="max-w-[82%]">
+                        <div className="text-xs text-muted-foreground mb-1 px-1">
+                          {message.senderRole === "seller" ? "You" : selectedConversation?.buyerId}
+                        </div>
+                        <div className={`rounded-2xl px-4 py-3 text-sm leading-6 ${message.senderRole === "seller" ? "bg-primary text-white" : "bg-surface-soft"}`}>
+                          {message.text.includes("OFFER::") ? (
+                            <OfferBubble text={message.text} products={products} />
+                          ) : (
+                            message.text
+                          )}
+                        </div>
                       </div>
                     </div>
                   ))}
@@ -298,6 +275,67 @@ export function SellerDashboardPage({
           </section>
         </div>
       </main>
+
+      {/* Add Product Modal */}
+      {addProductModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="w-full max-w-md rounded-2xl border border-line bg-surface p-6 shadow-xl">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold">Add New Product</h2>
+              <button onClick={() => setAddProductModal(false)} className="text-muted-foreground hover:text-foreground">
+                ✕
+              </button>
+            </div>
+            <form onSubmit={createProduct} className="space-y-4">
+              <input name="title" required placeholder="Product name" className="w-full rounded-xl border border-line bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
+              <input name="price" required min="1" type="number" placeholder="Price" className="w-full rounded-xl border border-line bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
+              <input name="category" placeholder="Category" className="w-full rounded-xl border border-line bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
+              <input name="stock" min="1" type="number" placeholder="Stock" className="w-full rounded-xl border border-line bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
+              <input name="image" placeholder="Image URL" className="w-full rounded-xl border border-line bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
+              <textarea name="description" required placeholder="Description" rows={3} className="w-full rounded-xl border border-line bg-background px-4 py-3 text-sm outline-none focus:border-primary" />
+              <button className="w-full rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-white hover:bg-primary/90">
+                Publish Product
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* View Products Modal */}
+      {viewProductsModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+          <div className="w-full max-w-2xl rounded-2xl border border-line bg-surface p-6 shadow-xl max-h-[80vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold">Your Products</h2>
+              <button onClick={() => setViewProductsModal(false)} className="text-muted-foreground hover:text-foreground">
+                ✕
+              </button>
+            </div>
+            <div className="space-y-4">
+              {products.map((product) => (
+                <div key={product.slug} className="flex items-center gap-4 p-4 border border-line rounded-xl">
+                  <img src={product.image} alt={product.title} className="h-16 w-16 rounded-xl object-cover" />
+                  <div className="flex-1">
+                    <p className="font-semibold">{product.title}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {money(product.price)} - {product.stock || 0} in stock
+                    </p>
+                  </div>
+                  <Link href={`/product/${product.slug}`} className="rounded-xl border border-line px-3 py-2 text-sm font-semibold hover:bg-surface-soft">
+                    View
+                  </Link>
+                  <button onClick={() => removeProduct(product.slug)} className="grid h-10 w-10 place-items-center rounded-xl border border-line text-muted-foreground hover:text-error">
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                </div>
+              ))}
+              {products.length === 0 && (
+                <div className="text-center text-sm text-muted-foreground">No products yet.</div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
