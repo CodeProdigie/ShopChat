@@ -20,7 +20,7 @@ const memory = globalThis as typeof globalThis & {
 };
 
 function memoryProducts() {
-  memory.__shopchatProducts ||= [...demoProducts];
+  memory.__shopchatProducts ||= [];
   return memory.__shopchatProducts;
 }
 
@@ -123,19 +123,12 @@ export async function activateSeller() {
 export async function getProducts(): Promise<Product[]> {
   return withMongo(async () => {
     const db = await getShopChatDb();
-    const products = await db
+    return db
       .collection<Product>(collections.products)
       .find({})
       .sort({ title: 1 })
       .toArray();
-
-    if (products.length === 0) {
-      await db.collection<Product>(collections.products).insertMany(demoProducts);
-      return demoProducts;
-    }
-
-    return products;
-  }, memoryProducts());
+  }, []);
 }
 
 export async function getProduct(slug: string): Promise<Product> {
