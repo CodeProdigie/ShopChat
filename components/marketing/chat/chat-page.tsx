@@ -166,60 +166,73 @@ export function ChatPage({
                         : "bg-slate-50 border border-slate-200 rounded-3xl rounded-tl-none shadow-sm dark:bg-slate-900 dark:border-slate-800 dark:text-slate-100"
                   }`}
                 >
-                  <p>{message.text}</p>
+                  {message.text.includes("OFFER::") ? (
+                    <OfferBubble text={message.text} product={product} />
+                  ) : (
+                    <p>{message.text}</p>
+                  )}
                 </div>
                 <span className="mt-1 ml-2 text-[10px] text-slate-400">{formatTime(message.createdAt)}</span>
               </div>
             ))}
+            {messages.length === 0 ? (
+              <div className="rounded-3xl border border-dashed border-slate-300 bg-white/70 p-8 text-center text-sm text-slate-500 dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-400">
+                Start a fresh conversation with {product.seller} about {product.title}.
+              </div>
+            ) : null}
 
-            <div className="rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden dark:border-slate-800 dark:bg-slate-900">
-              <div className="flex gap-4 p-4">
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  className="h-20 w-20 rounded-3xl object-cover bg-slate-100 dark:bg-slate-800"
-                />
-                <div className="flex-1">
-                  <div className="flex items-start justify-between gap-3">
-                    <span className="text-[10px] uppercase tracking-[0.24em] text-indigo-700 font-semibold">
-                      Order {conversation.orderId || "#Draft"}
-                    </span>
-                    <span className="rounded-full bg-indigo-50 px-2 py-1 text-[10px] font-semibold text-indigo-700">
-                      Pending Payment
-                    </span>
+            {messages.length > 0 && (
+              <div className="rounded-3xl border border-slate-200 bg-white shadow-sm overflow-hidden dark:border-slate-800 dark:bg-slate-900">
+                <div className="flex gap-4 p-4">
+                  <img
+                    src={product.image}
+                    alt={product.title}
+                    className="h-20 w-20 rounded-3xl object-cover bg-slate-100 dark:bg-slate-800"
+                  />
+                  <div className="flex-1">
+                    <div className="flex items-start justify-between gap-3">
+                      <span className="text-[10px] uppercase tracking-[0.24em] text-indigo-700 font-semibold">
+                        Order {conversation.orderId || "#Draft"}
+                      </span>
+                      <span className="rounded-full bg-indigo-50 px-2 py-1 text-[10px] font-semibold text-indigo-700">
+                        Pending Payment
+                      </span>
+                    </div>
+                    <h2 className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">{product.title}</h2>
+                    <p className="mt-1 text-sm font-bold text-indigo-700">{product.priceLabel}.00</p>
                   </div>
-                  <h2 className="mt-2 text-lg font-semibold text-slate-900 dark:text-slate-100">{product.title}</h2>
-                  <p className="mt-1 text-sm font-bold text-indigo-700">{product.priceLabel}.00</p>
+                </div>
+                <div className="bg-slate-100 p-3 flex gap-2 dark:bg-slate-900/80">
+                  <Link
+                    href={`/payment-success?conversation=${conversation.id}`}
+                    className="flex-1 rounded-3xl bg-indigo-700 px-4 py-3 text-center text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition-transform hover:-translate-y-0.5 active:scale-95"
+                  >
+                    Buy Now
+                  </Link>
+                  <button className="inline-flex h-12 w-12 items-center justify-center rounded-3xl border border-slate-200 text-slate-600 hover:bg-slate-100 transition dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800">
+                    <Info className="h-5 w-5" />
+                  </button>
                 </div>
               </div>
-              <div className="bg-slate-100 p-3 flex gap-2 dark:bg-slate-900/80">
-                <Link
-                  href={`/payment-success?conversation=${conversation.id}`}
-                  className="flex-1 rounded-3xl bg-indigo-700 px-4 py-3 text-center text-sm font-semibold text-white shadow-lg shadow-indigo-200 transition-transform hover:-translate-y-0.5 active:scale-95"
-                >
-                  Buy Now
-                </Link>
-                <button className="inline-flex h-12 w-12 items-center justify-center rounded-3xl border border-slate-200 text-slate-600 hover:bg-slate-100 transition dark:border-slate-800 dark:text-slate-300 dark:hover:bg-slate-800">
-                  <Info className="h-5 w-5" />
-                </button>
-              </div>
-            </div>
+            )}
 
-            <div className="flex flex-col gap-1">
-              <span className="text-sm font-semibold text-foreground">Quick replies</span>
-              <div className="flex gap-2 overflow-x-auto pb-2 hide-scrollbar">
-                {quickReplies.map((reply) => (
-                  <button
-                    key={reply}
-                    type="button"
-                    onClick={() => setDraft(reply)}
-                    className="whitespace-nowrap rounded-full border border-secondary text-secondary bg-white px-4 py-2 text-xs font-semibold hover:bg-secondary/10 transition dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
-                  >
-                    {reply}
-                  </button>
-                ))}
+            {messages.length > 0 && (
+              <div className="flex flex-col gap-1">
+                <span className="text-sm font-semibold text-foreground">Quick replies</span>
+                <div className="flex gap-2 overflow-x-auto pb-2 hide-scrollbar">
+                  {quickReplies.map((reply) => (
+                    <button
+                      key={reply}
+                      type="button"
+                      onClick={() => setDraft(reply)}
+                      className="whitespace-nowrap rounded-full border border-secondary text-secondary bg-white px-4 py-2 text-xs font-semibold hover:bg-secondary/10 transition dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+                    >
+                      {reply}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </main>
 
@@ -297,6 +310,28 @@ export function ChatPage({
           </p>
         </div>
       </aside>
+    </div>
+  );
+}
+
+function OfferBubble({ text, product }: { text: string; product: Product }) {
+  const [note] = text.split("\n\nOFFER::");
+
+  return (
+    <div className="space-y-3 text-left">
+      <p>{note}</p>
+      <div className="rounded-2xl bg-white p-3 text-slate-900">
+        <div className="flex gap-3">
+          <img src={product.image} alt={product.title} className="h-16 w-16 rounded-xl object-cover" />
+          <div>
+            <p className="font-semibold">{product.title}</p>
+            <p className="text-sm text-slate-500">{product.priceLabel}.00</p>
+          </div>
+        </div>
+        <Link href={`/payment-success?product=${product.slug}`} className="mt-3 inline-flex w-full justify-center rounded-xl bg-indigo-700 px-4 py-2 text-sm font-semibold text-white">
+          Buy Now
+        </Link>
+      </div>
     </div>
   );
 }

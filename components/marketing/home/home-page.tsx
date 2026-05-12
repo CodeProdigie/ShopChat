@@ -19,8 +19,9 @@ import {
   Store,
   X,
 } from "lucide-react";
-import { Show, UserButton } from "@clerk/nextjs";
+import { Show } from "@clerk/nextjs";
 import { AuthModal } from "@/components/auth/auth-modal";
+import { ShopChatUserButton } from "@/components/auth/shopchat-user-button";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 const brandLogos = [
@@ -253,7 +254,7 @@ function HomeHeader({ openAuth }: { openAuth: (mode: AuthMode) => void }) {
             </button>
           </Show>
           <Show when="signed-in">
-            <UserButton />
+            <ShopChatUserButton />
           </Show>
         </div>
       </div>

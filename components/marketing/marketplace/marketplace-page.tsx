@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useMemo, useState } from "react";
 import {
   Bell,
   Home,
@@ -13,6 +16,7 @@ import {
   Wallet,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/theme/theme-toggle";
+import { ShopChatUserButton } from "@/components/auth/shopchat-user-button";
 import type { Product } from "@/lib/shopchat-data";
 
 const sideNavItems = [
@@ -30,23 +34,43 @@ const bottomNavItems = [
   { label: "Profile", icon: User, active: false },
 ];
 
-const filters = [
-  { label: "Categories", icon: Tag },
-  { label: "Price Range", icon: Wallet },
-  { label: "Seller Rating", icon: Star },
-];
-
 export function MarketplacePage({ products }: { products: Product[] }) {
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("All");
+  const [price, setPrice] = useState("all");
+  const [rating, setRating] = useState("all");
+  const categories = useMemo(
+    () => ["All", ...Array.from(new Set(products.map((product) => product.category || "General")))],
+    [products],
+  );
+  const filteredProducts = useMemo(() => {
+    return products.filter((product) => {
+      const matchesQuery = [product.title, product.description, product.seller]
+        .join(" ")
+        .toLowerCase()
+        .includes(query.toLowerCase());
+      const matchesCategory = category === "All" || product.category === category;
+      const matchesPrice =
+        price === "all" ||
+        (price === "under-200" && product.price < 200) ||
+        (price === "200-500" && product.price >= 200 && product.price <= 500) ||
+        (price === "over-500" && product.price > 500);
+      const matchesRating = rating === "all" || product.rating >= Number(rating);
+
+      return matchesQuery && matchesCategory && matchesPrice && matchesRating;
+    });
+  }, [category, price, products, query, rating]);
+
   return (
     <div className="min-h-screen bg-surface-soft text-foreground">
       <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-3 w-full bg-white/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm">
         <div className="flex items-center gap-8">
-          <Link href="/" className="text-xl font-black tracking-tight text-indigo-700 dark:text-indigo-400">
-            ShopChat
-          </Link>
+          <ShopChatUserButton />
           <div className="hidden md:flex items-center gap-4 bg-surface-soft px-4 py-2 rounded-full border border-slate-200 dark:border-slate-800">
             <Search className="h-5 w-5 text-slate-400" />
             <input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
               className="bg-transparent border-none focus:ring-0 text-sm text-foreground placeholder:text-slate-400"
               placeholder="Search marketplace..."
               type="text"
@@ -74,11 +98,6 @@ export function MarketplacePage({ products }: { products: Product[] }) {
             <ShoppingCart className="h-5 w-5" />
           </button>
           <ThemeToggle />
-          <img
-            alt="User Profile"
-            src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?auto=format&fit=crop&w=200&q=80"
-            className="w-8 h-8 rounded-full border border-slate-200 dark:border-slate-800 object-cover"
-          />
         </div>
       </header>
 
@@ -128,25 +147,48 @@ export function MarketplacePage({ products }: { products: Product[] }) {
                 </p>
               </div>
 
-              <div className="flex flex-wrap gap-4">
-                {filters.map((filter) => {
-                  const FilterIcon = filter.icon;
-                  return (
-                    <button
-                      key={filter.label}
-                      type="button"
-                      className="bg-surface dark:bg-slate-900 px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm flex items-center gap-3 text-sm font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
-                    >
-                      <FilterIcon className="h-4 w-4 text-indigo-600" />
-                      {filter.label}
-                    </button>
-                  );
-                })}
+              <div className="grid gap-3 sm:grid-cols-3">
+                <label className="flex items-center gap-2 rounded-xl border border-line bg-surface px-3 py-2 text-sm font-semibold">
+                  <Tag className="h-4 w-4 text-indigo-600" />
+                  <select value={category} onChange={(event) => setCategory(event.target.value)} className="min-w-0 bg-transparent outline-none">
+                    {categories.map((item) => (
+                      <option key={item}>{item}</option>
+                    ))}
+                  </select>
+                </label>
+                <label className="flex items-center gap-2 rounded-xl border border-line bg-surface px-3 py-2 text-sm font-semibold">
+                  <Wallet className="h-4 w-4 text-indigo-600" />
+                  <select value={price} onChange={(event) => setPrice(event.target.value)} className="min-w-0 bg-transparent outline-none">
+                    <option value="all">Any price</option>
+                    <option value="under-200">Under $200</option>
+                    <option value="200-500">$200 - $500</option>
+                    <option value="over-500">Over $500</option>
+                  </select>
+                </label>
+                <label className="flex items-center gap-2 rounded-xl border border-line bg-surface px-3 py-2 text-sm font-semibold">
+                  <Star className="h-4 w-4 text-indigo-600" />
+                  <select value={rating} onChange={(event) => setRating(event.target.value)} className="min-w-0 bg-transparent outline-none">
+                    <option value="all">Any rating</option>
+                    <option value="4.5">4.5+</option>
+                    <option value="4.8">4.8+</option>
+                  </select>
+                </label>
               </div>
             </div>
 
+            <div className="mb-6 flex md:hidden items-center gap-3 rounded-2xl border border-line bg-surface px-4 py-3">
+              <Search className="h-5 w-5 text-slate-400" />
+              <input
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
+                className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
+                placeholder="Search marketplace..."
+                type="text"
+              />
+            </div>
+
             <div className="grid gap-8 grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
-              {products.map((product) => (
+              {filteredProducts.map((product) => (
                 <article
                   key={product.title}
                   className="group bg-surface dark:bg-slate-950 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl transition-transform duration-300 hover:-translate-y-1"
@@ -180,13 +222,18 @@ export function MarketplacePage({ products }: { products: Product[] }) {
                         className="flex items-center gap-2 border border-secondary text-secondary font-semibold py-2 px-4 rounded-xl hover:bg-secondary/10 transition-colors"
                       >
                         <MessageSquare className="h-4 w-4" />
-                        Ask Seller
+                        View
                       </Link>
                     </div>
                   </div>
                 </article>
               ))}
             </div>
+            {filteredProducts.length === 0 ? (
+              <div className="rounded-3xl border border-dashed border-line bg-surface p-10 text-center text-muted-foreground">
+                No products match those filters yet.
+              </div>
+            ) : null}
           </section>
         </main>
       </div>

@@ -69,17 +69,19 @@ export function ProductDetailPage({ product }: { product: Product }) {
       </header>
 
       <main className="pt-20 pb-32">
-        <section className="bg-surface-container-lowest py-6">
+        <section className="bg-surface-container-lowest py-6 lg:py-10">
           <div className="mx-auto max-w-7xl px-4 sm:px-6">
-            <div className="relative overflow-hidden rounded-4xl border border-line bg-surface shadow-sm">
+            <div className="relative mx-auto max-w-4xl overflow-hidden rounded-[2rem] border border-line bg-surface shadow-sm">
               <div className="flex overflow-x-auto snap-x snap-mandatory hide-scrollbar">
                 {heroImages.map((image) => (
-                  <div key={image.src} className="flex-none w-full aspect-square snap-center p-4 sm:p-6">
+                  <div key={image.src} className="flex-none w-full snap-center p-4 sm:p-6">
+                    <div className="mx-auto aspect-[4/3] max-h-[24rem] max-w-2xl">
                     <img
                       src={image.src}
                       alt={image.alt}
-                      className="w-full h-full object-contain rounded-3xl shadow-xl"
+                      className="w-full h-full object-contain rounded-3xl bg-surface-soft shadow-xl"
                     />
+                    </div>
                   </div>
                 ))}
               </div>

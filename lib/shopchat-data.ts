@@ -10,6 +10,9 @@ export type Product = {
   image: string;
   rating: number;
   sales: string;
+  category?: string;
+  stock?: number;
+  createdAt?: string;
   specs?: { label: string; value: string }[];
 };
 
@@ -52,6 +55,8 @@ export const demoProducts: Product[] = [
     sellerId: "seller-keymods",
     seller: "KeyMods Co.",
     badge: "New Arrival",
+    category: "Accessories",
+    stock: 18,
     image:
       "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?auto=format&fit=crop&w=1200&q=80",
     rating: 4.8,
@@ -71,6 +76,8 @@ export const demoProducts: Product[] = [
     sellerId: "seller-audiohaus",
     seller: "AudioHaus",
     badge: null,
+    category: "Audio",
+    stock: 23,
     image:
       "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=1200&q=80",
     rating: 4.7,
@@ -90,6 +97,8 @@ export const demoProducts: Product[] = [
     sellerId: "seller-lume",
     seller: "Lume Design",
     badge: null,
+    category: "Home",
+    stock: 12,
     image:
       "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=1200&q=80",
     rating: 4.6,
@@ -109,6 +118,8 @@ export const demoProducts: Product[] = [
     sellerId: "seller-novatech",
     seller: "NovaTech",
     badge: "Low Stock",
+    category: "Wearables",
+    stock: 4,
     image:
       "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=1200&q=80",
     rating: 4.9,
@@ -128,6 +139,8 @@ export const demoProducts: Product[] = [
     sellerId: "seller-workflow",
     seller: "WorkFlow Studio",
     badge: "Low Stock",
+    category: "Furniture",
+    stock: 7,
     image:
       "https://images.unsplash.com/photo-1580480055273-228ff5388ef8?auto=format&fit=crop&w=1200&q=80",
     rating: 4.8,
@@ -147,6 +160,8 @@ export const demoProducts: Product[] = [
     sellerId: "seller-lenscraft",
     seller: "LensCraft",
     badge: null,
+    category: "Camera",
+    stock: 9,
     image:
       "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=1200&q=80",
     rating: 4.9,
