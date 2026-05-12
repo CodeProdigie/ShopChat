@@ -757,7 +757,7 @@ export function SellerDashboardPage({
                       )}
                     </div>
                   </div>
-                  <div className="flex items-center gap-2 flex-shrink-0">
+                  <div className="flex items-center gap-2 shrink-0">
                     <Link
                       href={`/product/${product.slug}`}
                       className="rounded-lg border border-line bg-surface px-3 py-1.5 text-[12px] font-semibold text-foreground hover:bg-surface-strong transition-colors"

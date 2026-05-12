@@ -322,7 +322,7 @@ function HeroSection({ openAuth }: { openAuth: (mode: AuthMode) => void }) {
       className="mx-auto max-w-7xl px-4 pb-20 pt-10 sm:px-6 md:pb-24 lg:px-8 lg:pt-16"
     >
       <div className="grid items-center gap-10 lg:grid-cols-[1fr_1.02fr] lg:gap-14">
-        <div className="order-last flex flex-col gap-6 lg:order-first">
+        <div className="flex flex-col gap-6">
           <h1 className="max-w-3xl text-4xl font-extrabold tracking-[-0.05em] text-foreground sm:text-5xl md:text-6xl lg:text-[3.5rem] lg:leading-[1.08]">
             The commerce platform where{" "}
             <span className="text-primary">chat is the checkout.</span>
@@ -370,7 +370,7 @@ function HeroSection({ openAuth }: { openAuth: (mode: AuthMode) => void }) {
           </div>
         </div>
 
-        <div className="order-first lg:order-last">
+        <div>
           <div className="relative mx-auto max-w-[38rem]">
             <div className="absolute inset-0 -z-10 rounded-[2rem] bg-primary/12 blur-3xl" />
             <div className="card-shadow relative overflow-hidden rounded-[2rem] border border-line bg-surface p-4 sm:p-6">
