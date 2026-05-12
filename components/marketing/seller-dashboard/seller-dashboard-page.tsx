@@ -641,9 +641,9 @@ export function SellerDashboardPage({
               {(
                 [
                   { name: "title", placeholder: "Product name", required: true },
-                  { name: "category", placeholder: "Category" },
-                  { name: "image", placeholder: "Image URL" },
-                ] as const
+                  { name: "category", placeholder: "Category", required: false },
+                  { name: "image", placeholder: "Image URL", required: false },
+                ] as { name: string; placeholder: string; required: boolean }[]
               ).map(({ name, placeholder, required }) => (
                 <div key={name}>
                   <label className="block text-[10px] font-semibold text-muted-foreground uppercase tracking-widest mb-1.5">
